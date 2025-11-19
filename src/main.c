@@ -11,13 +11,13 @@ SDL_GLContext glctx = NULL;
 //methods
 void initSDL_GL();
 void cleanSDL_GL();
-void testGL();
+void createScreenMesh();
 
 //main()
 int main() {
     initSDL_GL();
 
-    testGL();
+    createScreenMesh();
     SDL_Delay(2000);
 
     cleanSDL_GL();
@@ -37,26 +37,30 @@ void initSDL_GL()
     win = SDL_CreateWindow("Voxel Project",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     800, 600, SDL_WINDOW_OPENGL);
-    glctx = SDL_GL_CreateContext(win);
 
     SDL_GL_SetAttribute(GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(GL_DEPTH_BUFFER_BIT, 24);
+    glctx = SDL_GL_CreateContext(win);
 }
 
-void testGL()
+void createScreenMesh()
 {
-  // Set every pixel in the frame buffer to the current clear color.
+  glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  // Drawing is done by specifying a sequence of vertices.  The way these
-  // vertices are connected (or not connected) depends on the argument to
-  // glBegin.  GL_POLYGON constructs a filled polygon.
-  glBegin(GL_POLYGON);
-    glColor3f(1, 0, 0); glVertex3f(-0.6, -0.75, 0.5);
-    glColor3f(0, 1, 0); glVertex3f(0.6, -0.75, 0);
-    glColor3f(0, 0, 1); glVertex3f(0, 0.75, 0);
-  glEnd();
+  glBegin(GL_TRIANGLES);
 
-  // Flush drawing command buffer to make drawing happen as soon as possible.
-  glFlush();
+      //Triangle 1
+      glColor3f(1, 0, 0); glVertex2f(-1.0f, -1.0f);
+      glColor3f(0, 1, 0); glVertex2f( 1.0f, -1.0f);
+      glColor3f(0, 0, 1); glVertex2f( 1.0f,  1.0f);
+
+      //Triangle 2
+      glColor3f(1, 0, 1); glVertex2f(-1.0f, -1.0f);
+      glColor3f(1, 1, 0); glVertex2f( 1.0f,  1.0f);
+      glColor3f(0, 1, 1); glVertex2f(-1.0f,  1.0f);
+  
+      glEnd();
+
+  SDL_GL_SwapWindow(win);
 }
