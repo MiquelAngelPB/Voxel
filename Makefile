@@ -1,6 +1,8 @@
+source = ./src
+binary = ./bin
 
 all:
-	gcc ./src/main.c -lSDL2 -lGL -o ./bin/test
+	gcc $(source)/*.c -lSDL2 -lGLEW -lGL -o $(binary)/test
 
 run: all
 	./bin/test
