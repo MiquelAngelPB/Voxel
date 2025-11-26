@@ -4,6 +4,7 @@
 //#include <GL/gl.h>
 #include <GL/glew.h>
 #include <stdio.h>
+#include "utilities.h"
 
 //variables
 SDL_Window* win = NULL;
@@ -132,12 +133,20 @@ void manageSgaders()
 
     GLuint vs = glCreateShader(GL_VERTEX_SHADER);
     GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+    GLuint cs = glCreateShader(GL_COMPUTE_SHADER);
 
-    const char *shaderSources[2];
+    const char *shaderSources[3];
     shaderSources[0] = (char*)vShader;
     shaderSources[1] = (char*)fShader;
 
-    GLuint shaders[2] = { vs, fs };
+    int csError;
+    char* cpShader = readFile("./src/shaders/draw_screen.comp", &csError);
+    if (csError == 0) //succes
+    {
+        shaderSources[2] = (char*)cpShader;
+    }
+
+    GLuint shaders[3] = { vs, fs, cs };
 
     compileShaders(shaders, shaderSources, 2);
 }
