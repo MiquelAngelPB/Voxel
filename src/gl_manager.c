@@ -12,6 +12,7 @@ SDL_GLContext glctx = NULL;
 GLuint vbo;
 GLuint vao;
 GLuint program;
+GLuint screenTex;
 
 //methods
 void initSDL_GL();
@@ -19,10 +20,13 @@ void cleanSDL_GL();
 void createScreenMesh();
 void compileShaders(GLuint* pshader, const char *data[], int nShaders);
 void manageSgaders();
+GLuint createTexture(int w, int h);
 
 //main()
 int glManager_Init() {
     initSDL_GL();
+    screenTex = createTexture(4, 4);
+
     createScreenMesh();
 }
 
@@ -125,10 +129,10 @@ void manageSgaders()
     "in vec3 fragColor;\n"
     "in vec2 fragTexCoord;\n"
     "out vec4 outColor;\n"
-
+    "uniform sampler2D screenTexture;\n"
     "void main()\n"
     "{\n"
-    "   outColor = vec4(fragColor, 1.0);\n"
+    "   outColor = texture(screenTexture, fragTexCoord);\n"
     "}\n";
 
     GLuint vs = glCreateShader(GL_VERTEX_SHADER);
@@ -180,14 +184,23 @@ void compileShaders(GLuint* pshader, const char *data[], int nShaders)
 
 GLuint createTexture(int w, int h)
 {
+    unsigned char pixels[4 * 4 * 3] =
+    {
+        255,255,255,  0,0,0,      255,255,255,  0,0,0,
+        0,0,0,        255,255,255,0,0,0,        255,255,255,
+        255,255,255,  0,0,0,      255,255,255,  0,0,0,
+        0,0,0,        255,255,255,0,0,0,        255,255,255
+    };
+
     GLuint tex;
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
     return tex;
 }

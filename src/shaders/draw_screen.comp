@@ -1,9 +1,7 @@
 #version core 330
+uniform sampler2D uScreenTexture;
 
-This is a test
-To see if my readFile() function works
-
-these are spetial characters \0 \n [] {} () *'!ªº|@#~½¬
-
-If this can be read, everything is fine (I think).
-End
+void main()
+{
+    
+}
