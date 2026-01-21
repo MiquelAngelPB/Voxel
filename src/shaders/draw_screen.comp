@@ -1,7 +1,0 @@
-#version core 330
-uniform sampler2D uScreenTexture;
-
-void main()
-{
-    
-}

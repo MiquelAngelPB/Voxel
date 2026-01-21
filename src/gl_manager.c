@@ -1,7 +1,4 @@
-//Implement this: https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideoopengl.html
-//Also: https://www.youtube.com/watch?v=wg4om77Drr0
 #include <SDL2/SDL.h>
-//#include <GL/gl.h>
 #include <GL/glew.h>
 #include <stdio.h>
 #include "utilities.h"
@@ -9,33 +6,39 @@
 //variables
 SDL_Window* win = NULL;
 SDL_GLContext glctx = NULL;
-GLuint vbo;
-GLuint vao;
+GLuint vao = 0;
+GLuint vbo = 0;
 GLuint program;
-GLuint screenTex;
 
 //methods
 void initSDL_GL();
 void cleanSDL_GL();
-void createScreenMesh();
+void manageShaders();
 void compileShaders(GLuint* pshader, const char *data[], int nShaders);
-void manageSgaders();
-GLuint createTexture(int w, int h);
+void createScreenMesh();
 
-//main()
-int glManager_Init() {
+//main methods
+void glManager_Init() {
     initSDL_GL();
-    screenTex = createTexture(4, 4);
-
     createScreenMesh();
 }
 
-void glManager_Render()
+void glManager_Render(float camX, float camY, float camZ, float camRX, float camRY)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(program);
+
+    GLint camPos = glGetUniformLocation(program, "camPos");
+    glUniform3f(camPos, camX, camY, camZ);
+
+    GLuint camRot = glGetUniformLocation(program, "camRot");
+    camRX /= 800.0f;
+    camRY /= 600.0f;
+    glUniform2f(camRot, camRX, camRY);
+
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
     SDL_GL_SwapWindow(win);
 }
 
@@ -56,101 +59,69 @@ void initSDL_GL()
 {
     SDL_Init(SDL_INIT_VIDEO);
 
+    SDL_GL_SetAttribute(GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
     win = SDL_CreateWindow("Voxel Project",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     800, 600, SDL_WINDOW_OPENGL);
 
-    SDL_GL_SetAttribute(GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     glctx = SDL_GL_CreateContext(win);
-
     glewInit();
 }
 
 void createScreenMesh()
 {
     //setup
-    float triangles[6 * 7] = {
-       -1, -1,      0, 1, 1,    0, 0,
-        1, -1,      1, 0, 1,    1, 0,
-        1,  1,      1, 1, 0,    1, 1,
-
-       -1, -1,      1, 1, 0,    0, 0,
-       -1,  1,      1, 0, 1,    1, 1,
-        1,  1,      0, 1, 1,    1, 0
+    float triangles[6 * 2] = {
+       -1, -1, 1, -1, 1, 1,
+       -1, -1, -1, 1, 1, 1
     };
 
+    //setup vao and vbo
     glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
     glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangles), &triangles, GL_STATIC_DRAW);
 
-    //Position (2 floats)
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)0);
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(triangles), triangles, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    //Color (3 floats)
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    //unbind vao and vbo
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
-    //Texture coords (2 floats)
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(5 * sizeof(float)));
-    glEnableVertexAttribArray(2);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-    //render
+    //render here
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    manageSgaders();
+    manageShaders();
 }
 
-void manageSgaders()
+void manageShaders()
 {
-    //vector shader
-    const char* vShader = "#version 330 core\n"
-    "layout(location = 0) in vec2 inPos;\n"
-    "layout(location = 1) in vec3 inColor;\n"
-    "layout(location = 2) in vec2 inTexCoord;\n"
-    "out vec3 fragColor;\n"
-    "out vec2 fragTexCoord;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(inPos, 0.0, 1.0);\n"
-    "   fragColor = inColor;\n"
-    "   fragTexCoord = inTexCoord;\n"
-    "}\n";
-
-    //fragment shader
-    const char* fShader = "#version 330 core\n"
-    "in vec3 fragColor;\n"
-    "in vec2 fragTexCoord;\n"
-    "out vec4 outColor;\n"
-    "uniform sampler2D screenTexture;\n"
-    "void main()\n"
-    "{\n"
-    "   outColor = texture(screenTexture, fragTexCoord);\n"
-    "}\n";
-
     GLuint vs = glCreateShader(GL_VERTEX_SHADER);
     GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-    GLuint cs = glCreateShader(GL_COMPUTE_SHADER);
 
-    const char *shaderSources[3];
-    shaderSources[0] = (char*)vShader;
-    shaderSources[1] = (char*)fShader;
+    const char *shaderSources[2];
+    int error;
 
-    int csError;
-    char* cpShader = readFile("./src/shaders/draw_screen.comp", &csError);
-    if (csError == 0) //succes
-    {
-        shaderSources[2] = (char*)cpShader;
+    shaderSources[0] = readFile("src/shaders/vertex.vert", &error);
+    if (error) {
+        printf("vs err=%d ptr=%p\n", error, (void*)shaderSources[0]);
     }
 
-    GLuint shaders[3] = { vs, fs, cs };
+    shaderSources[1] = readFile("src/shaders/raymarching.frag", &error);
+    if (error) {
+        printf("fs err=%d ptr=%p\n", error, (void*)shaderSources[1]);
+    }
+
+    GLuint shaders[3] = { vs, fs };
 
     compileShaders(shaders, shaderSources, 2);
 }
@@ -180,27 +151,4 @@ void compileShaders(GLuint* pshader, const char *data[], int nShaders)
         glAttachShader(program, pshader[i]);
     }
     glLinkProgram(program);
-}
-
-GLuint createTexture(int w, int h)
-{
-    unsigned char pixels[4 * 4 * 3] =
-    {
-        255,255,255,  0,0,0,      255,255,255,  0,0,0,
-        0,0,0,        255,255,255,0,0,0,        255,255,255,
-        255,255,255,  0,0,0,      255,255,255,  0,0,0,
-        0,0,0,        255,255,255,0,0,0,        255,255,255
-    };
-
-    GLuint tex;
-    glGenTextures(1, &tex);
-    glBindTexture(GL_TEXTURE_2D, tex);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-    return tex;
 }
