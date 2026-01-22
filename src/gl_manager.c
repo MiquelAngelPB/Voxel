@@ -2,6 +2,10 @@
 #include <GL/glew.h>
 #include <stdio.h>
 #include "utilities.h"
+#include "player.h"
+
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
 //variables
 SDL_Window* win = NULL;
@@ -9,6 +13,9 @@ SDL_GLContext glctx = NULL;
 GLuint vao = 0;
 GLuint vbo = 0;
 GLuint program;
+
+float camX, camY, camZ;
+float camRX, camRY, camRZ;
 
 //methods
 void initSDL_GL();
@@ -23,18 +30,21 @@ void glManager_Init() {
     createScreenMesh();
 }
 
-void glManager_Render(float camX, float camY, float camZ, float camRX, float camRY)
+void glManager_Render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(program);
 
+    getCameraPosition(&camX, &camY, &camZ);
     GLint camPos = glGetUniformLocation(program, "camPos");
     glUniform3f(camPos, camX, camY, camZ);
 
+    getCameraRotation(&camRX, &camRY, &camRZ);
     GLuint camRot = glGetUniformLocation(program, "camRot");
-    camRX /= 800.0f;
-    camRY /= 600.0f;
-    glUniform2f(camRot, camRX, camRY);
+    glUniform3f(camRot, camRX, camRY, camRZ);
+
+    GLuint resolution = glGetUniformLocation(program, "resolution");
+    glUniform2f(resolution, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -58,6 +68,7 @@ void cleanSDL_GL()
 void initSDL_GL()
 {
     SDL_Init(SDL_INIT_VIDEO);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 
     SDL_GL_SetAttribute(GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -67,7 +78,7 @@ void initSDL_GL()
 
     win = SDL_CreateWindow("Voxel Project",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    800, 600, SDL_WINDOW_OPENGL);
+    SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 
     glctx = SDL_GL_CreateContext(win);
     glewInit();

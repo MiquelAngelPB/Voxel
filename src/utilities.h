@@ -1,5 +1,5 @@
-#ifndef gl_manager
-#define gl_manager
+#ifndef utilitites_h
+#define utilitites_h
 
 char* readFile(const char* filePath, int* error);
 
