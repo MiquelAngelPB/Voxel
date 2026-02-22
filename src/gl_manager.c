@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "utilities.h"
 #include "player.h"
+#include "vector.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
@@ -14,8 +15,8 @@ GLuint vao = 0;
 GLuint vbo = 0;
 GLuint program;
 
-float camX, camY, camZ;
-float camRX, camRY, camRZ;
+Vector3 camPos;
+Vector3 camRot;
 
 //methods
 void initSDL_GL();
@@ -35,16 +36,20 @@ void glManager_Render()
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(program);
 
-    getCameraPosition(&camX, &camY, &camZ);
-    GLint camPos = glGetUniformLocation(program, "camPos");
-    glUniform3f(camPos, camX, camY, camZ);
+    getCameraPosition(&camPos.x, &camPos.y, &camPos.z);
+    GLint camPosGL = glGetUniformLocation(program, "camPos");
+    glUniform3f(camPosGL, camPos.x, camPos.y, camPos.z);
 
-    getCameraRotation(&camRX, &camRY, &camRZ);
-    GLuint camRot = glGetUniformLocation(program, "camRot");
-    glUniform3f(camRot, camRX, camRY, camRZ);
+    getCameraRotation(&camRot.x, &camRot.y, &camRot.z);
+    GLuint camRotGL = glGetUniformLocation(program, "camRot");
+    glUniform3f(camRotGL, camRot.x, camRot.y, camRot.z);
 
-    GLuint resolution = glGetUniformLocation(program, "resolution");
-    glUniform2f(resolution, SCREEN_WIDTH, SCREEN_HEIGHT);
+    Vector3 forward = getCameraForward();
+    GLuint forwardGL = glGetUniformLocation(program, "forward");
+    glUniform3f(forwardGL, forward.x, forward.y, forward.z);
+
+    GLuint resolutionGL = glGetUniformLocation(program, "resolution");
+    glUniform2f(resolutionGL, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);

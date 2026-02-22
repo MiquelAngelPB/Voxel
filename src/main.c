@@ -2,11 +2,13 @@
 #include <GL/glew.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 #include "gl_manager.h"
 #include "player.h"
 
 //variables
 bool quit = false;
+float sensitivity = 0.0078539816 * 2; //(2.0f * M_PI) / 800.0f;
 
 //methods
 void manageInput();
@@ -25,6 +27,7 @@ int main() {
     glManager_Clean();
 }
 
+//TODO: refactor this method and move it to its corresponding file
 void manageInput()
 {
     float camDX = 0.0f;
@@ -40,26 +43,28 @@ void manageInput()
     {
         switch (event.type) {
             case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_w)         { camDZ = -0.1f; }
-                if (event.key.keysym.sym == SDLK_s)         { camDZ = 0.1f; }
+                if (event.key.keysym.sym == SDLK_w)         { camDZ = 0.1f; }
+                if (event.key.keysym.sym == SDLK_s)         { camDZ = -0.1f; }
                 if (event.key.keysym.sym == SDLK_d)         { camDX = 0.1f; }
                 if (event.key.keysym.sym == SDLK_a)         { camDX = -0.1f; }
                 if (event.key.keysym.sym == SDLK_SPACE)     { camDY = 0.1f; }
                 if (event.key.keysym.sym == SDLK_LSHIFT)    { camDY = -0.1f; }
     
                 if (event.key.keysym.sym == SDLK_ESCAPE)    { SDL_SetRelativeMouseMode(SDL_FALSE);}
-            break;
-        
+                break;
+
             case SDL_QUIT:
                 quit = true;
-            break;
+                break;
         
             case SDL_MOUSEMOTION:
-                camDRX = event.motion.xrel * 0.005f;
-                camDRY = event.motion.yrel * 0.005f;
+                camDRY = event.motion.xrel * sensitivity;
+                camDRX = event.motion.yrel * sensitivity;
+                break;
         }
     }
 
     moveCamera(camDX, camDY, camDZ);
     rotateCamera(camDRX, camDRY, camDRZ);
+    //printf("%f, %f, %f\n", camDRX, camDRY, camDRZ);
 }
