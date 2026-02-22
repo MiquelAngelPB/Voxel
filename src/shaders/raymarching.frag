@@ -10,6 +10,7 @@ out vec4 outColor;
 
 float fov = 1;
 vec2 uv = gl_FragCoord.xy / resolution * 2.0 - 1.0;
+vec3 testLight = vec3(0, 1, 0);
 vec3 worldUp = vec3(0, 1, 0);
 
 vec3 rayOrigin = camPos;
@@ -19,6 +20,7 @@ vec3 rayDirection = normalize(forward * fov + right * uv.x + up * uv.y);
 vec3 point;
 
 //methods
+float sdf(vec3 point);
 float sphereSDF(float radius, vec3 center, vec3 point);
 float cubeSDF(vec3 point, vec3 scale);
 float repeatSphere(vec3 point, vec3 scale);
@@ -27,39 +29,41 @@ vec3 raymarch(vec2 off);
 //main
 void main()
 {
-   vec3 p1 = raymarch(vec2(0));
-   vec3 p2 = raymarch(vec2(0.001, 0));
-   vec3 p3 = raymarch(vec2(0, 0.001));
+   vec3 p = raymarch(vec2(0));
+   float e = 0.001; //epsilon for normal calculation
 
-   vec3 surfaceP1 = p1 - p2;
-   vec3 surfaceP2 = p1 - p3;
+   vec3 normal = normalize(vec3(
+      sdf(p + vec3(e, 0, 0)) - sdf(p - vec3(e, 0, 0)),
+      sdf(p + vec3(0, e, 0)) - sdf(p - vec3(0, e, 0)),
+      sdf(p + vec3(0, 0, e)) - sdf(p - vec3(0, 0, e))
+   ));
 
-   vec3 normal = normalize(cross(surfaceP1, surfaceP2));
-
-   float light = dot(worldUp, normal); //assuming worldUp is already normalized
-   //
+   float light = dot(normal, normalize(p - testLight)); //assuming worldUp is already normalized
    outColor = vec4(light, light, light, 1);
 }
 
 vec3 raymarch(vec2 off)
 {
-   point = vec3(rayOrigin.xy, 0);
+   vec3 point = vec3(rayOrigin.xy, 0);
    float t = 0;
-   rayOrigin = camPos;
-   float dist = 0.0;
-   for (int i = 0; i < 100; i++)
+   vec3 origin = camPos;
+   vec3 rayDir = rayDirection;
+   float dist = 0;
+   for (int i = 0; i < 64; i++)
    {
-      point = rayOrigin + vec3(rayDirection.xy + off, rayDirection.z) * t;
-
-      float sphere = sphereSDF(1.0, vec3(0, 0, 1), point);
-      float cube = cubeSDF(point, vec3(1, 1, 1));
-      dist = min(cubeSDF(point, vec3(1.0)), repeatSphere(point, vec3(1.0))); //min(sphere, cube);
+      point = origin + vec3(rayDir.xy + off, rayDir.z) * t;
+      dist = sdf(point);
       t += dist;
 
       if (dist < 0.001 || t > 100.0) break;
    }
 
    return point;
+}
+
+float sdf(vec3 point)
+{
+   return min(cubeSDF(point, vec3(1.0)), repeatSphere(point, vec3(1.0)));
 }
 
 float sphereSDF(float radius, vec3 center, vec3 point)
