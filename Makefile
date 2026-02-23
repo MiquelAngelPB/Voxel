@@ -1,4 +1,5 @@
-cFlags=  -lSDL2 -lGLEW -lGL -lm 
+cFlags=  -lSDL2 -lGLEW -lGL -lm -I$(include)
+include = ./include
 source = ./src
 binary = ./bin
 

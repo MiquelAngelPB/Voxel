@@ -10,10 +10,14 @@
 struct Camera{
     Vector3 pos;
     Vector3 rot;
+    Vector3 v;
+    Vector3 a;
 };
 
 struct Camera mainCamera = {
     {0, 0, -3},
+    {0, 0, 0 },
+    {0, 0, 0 },
     {0, 0, 0 }
 };
 
@@ -21,7 +25,9 @@ const float rotationXOffset = 0.2;
 float minRotationX = -(M_PI / 2.0f) + rotationXOffset;
 float maxRotationX = M_PI / 2.0f - rotationXOffset;
 
-
+float speed = 0.01f;
+float maxSpeed = 30;
+float friction = 0.95f;
 
 void moveCamera(float dx, float dy, float dz) 
 {
@@ -37,6 +43,34 @@ void moveCamera(float dx, float dy, float dz)
     mainCamera.pos.x += forwDirX + sideDirX;
     mainCamera.pos.z += forwDirZ + sideDirZ;
     mainCamera.pos.y += dy;
+}
+
+void updateCameraPos()
+{
+    mainCamera.v.x += mainCamera.a.x * speed;
+    mainCamera.v.y += mainCamera.a.y * speed;
+    mainCamera.v.z += mainCamera.a.z * speed;
+
+    moveCamera(mainCamera.v.x, mainCamera.v.y, mainCamera.v.z);
+
+    mainCamera.v.x *= friction;
+    mainCamera.v.y *= friction;
+    mainCamera.v.z *= friction;
+
+    //TODO: Refactor this
+    if (mainCamera.v.x > maxSpeed) { mainCamera.v.x = maxSpeed; }
+    else if (mainCamera.v.x < -maxSpeed) { mainCamera.v.x = -maxSpeed; }
+    if (mainCamera.v.y > maxSpeed) { mainCamera.v.y = maxSpeed; }
+    else if (mainCamera.v.y < -maxSpeed) { mainCamera.v.y = -maxSpeed; }
+    if (mainCamera.v.x > maxSpeed) { mainCamera.v.x = maxSpeed; }
+    else if (mainCamera.v.z < -maxSpeed) { mainCamera.v.z = -maxSpeed; }
+}
+
+void pushCamera(float ax, float ay, float az) 
+{
+    mainCamera.a.x = ax;
+    mainCamera.a.y = ay;
+    mainCamera.a.z = az;
 }
 
 void rotateCamera(float dx, float dy, float dz) 

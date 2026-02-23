@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <stdio.h>
 #include "utilities.h"
-#include "player.h"
+#include "camera.h"
 #include "vector.h"
 
 #define SCREEN_WIDTH 800

@@ -20,11 +20,13 @@ vec3 rayDirection = normalize(forward * fov + right * uv.x + up * uv.y);
 vec3 point;
 
 //methods
+vec3 raymarch(vec2 off);
+
+float testFractalSDF(vec3 p0);
 float sdf(vec3 point);
 float sphereSDF(float radius, vec3 center, vec3 point);
 float cubeSDF(vec3 point, vec3 scale);
 float repeatSphere(vec3 point, vec3 scale);
-vec3 raymarch(vec2 off);
 
 //main
 void main()
@@ -61,9 +63,11 @@ vec3 raymarch(vec2 off)
    return point;
 }
 
+//SDF functions
+
 float sdf(vec3 point)
 {
-   return min(cubeSDF(point, vec3(1.0)), repeatSphere(point, vec3(1.0)));
+   return min(testFractalSDF(point), repeatSphere(point, vec3(1.0)));
 }
 
 float sphereSDF(float radius, vec3 center, vec3 point)
@@ -80,4 +84,13 @@ float repeatSphere(vec3 point, vec3 scale)
 {
    vec3 q = point - scale * round(point / scale);
    return sphereSDF(0.1, vec3(0, 0, 0), q);
+}
+
+float testFractalSDF(vec3 p0) {
+   vec4 p = vec4(p0, 1.);
+   for(int i = 0; i < 8; i++){
+      p.xyz = mod(p.xyz-1.,2.)-1.;
+      p*=1.4/dot(p.xyz,p.xyz);
+   }
+   return (length(p.xz/p.w)*0.25);
 }
