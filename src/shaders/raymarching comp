@@ -1,6 +1,17 @@
-#version 330 core
+#version 430 core
 
-//variables
+void main()
+{
+   outColor = vec4(uv.x, uv.y, uv.x + uv.y, 1);
+}
+
+//==========================================================================
+//TODO: Port this to compute shader, 
+//and use a texture to store the result of the raymarching, the fragment shader will render it.
+
+
+
+/*//variables
 uniform vec3 camPos;
 uniform vec3 camRot;
 uniform vec3 forward;
@@ -93,4 +104,4 @@ float testFractalSDF(vec3 p0) {
       p*=1.4/dot(p.xyz,p.xyz);
    }
    return (length(p.xz/p.w)*0.25);
-}
+}*/

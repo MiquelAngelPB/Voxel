@@ -18,7 +18,7 @@ char* readFile(const char* filePath, int* error)
         return NULL;
     }
 
-    //count size of file
+    //Calculate size of file
     fseek(file, 0, SEEK_END);
     long size = ftell(file);
     fseek(file, 0, SEEK_SET);
@@ -52,5 +52,6 @@ char* readFile(const char* filePath, int* error)
     }
 
     *error = e;
+
     return output;
 }

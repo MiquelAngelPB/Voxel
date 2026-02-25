@@ -14,6 +14,7 @@ SDL_GLContext glctx = NULL;
 GLuint vao = 0;
 GLuint vbo = 0;
 GLuint program;
+GLuint screenTexture;
 
 Vector3 camPos;
 Vector3 camRot;
@@ -24,11 +25,13 @@ void cleanSDL_GL();
 void manageShaders();
 void compileShaders(GLuint* pshader, const char *data[], int nShaders);
 void createScreenMesh();
+void createScreenTexture();
 
 //main methods
 void glManager_Init() {
     initSDL_GL();
     createScreenMesh();
+    createScreenTexture();
 }
 
 void glManager_Render()
@@ -37,7 +40,7 @@ void glManager_Render()
     glUseProgram(program);
 
     getCameraPosition(&camPos.x, &camPos.y, &camPos.z);
-    GLint camPosGL = glGetUniformLocation(program, "camPos");
+    GLuint camPosGL = glGetUniformLocation(program, "camPos");
     glUniform3f(camPosGL, camPos.x, camPos.y, camPos.z);
 
     getCameraRotation(&camRot.x, &camRot.y, &camRot.z);
@@ -51,6 +54,7 @@ void glManager_Render()
     GLuint resolutionGL = glGetUniformLocation(program, "resolution");
     glUniform2f(resolutionGL, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+    //render here
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
@@ -119,25 +123,25 @@ void createScreenMesh()
     manageShaders();
 }
 
+void createScreenTexture()
+{
+    //TODO: Create texture to render to.
+}
+
 void manageShaders()
 {
     GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+    GLuint cs = glCreateShader(GL_COMPUTE_SHADER);
     GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
 
     const char *shaderSources[2];
     int error;
 
     shaderSources[0] = readFile("src/shaders/vertex.vert", &error);
-    if (error) {
-        printf("vs err=%d ptr=%p\n", error, (void*)shaderSources[0]);
-    }
+    shaderSources[1] = readFile("src/shaders/raymarching comp", &error);
+    shaderSources[2] = readFile("src/shaders/fragment.frag", &error);
 
-    shaderSources[1] = readFile("src/shaders/raymarching.frag", &error);
-    if (error) {
-        printf("fs err=%d ptr=%p\n", error, (void*)shaderSources[1]);
-    }
-
-    GLuint shaders[3] = { vs, fs };
+    GLuint shaders[3] = { vs, cs, fs };
 
     compileShaders(shaders, shaderSources, 2);
 }

@@ -7,14 +7,14 @@
 #define  M_PI  3.1415926535897932384626433
 #endif
 
-struct Camera{
+typedef struct{
     Vector3 pos;
     Vector3 rot;
     Vector3 v;
     Vector3 a;
-};
+} Camera;
 
-struct Camera mainCamera = {
+Camera mainCamera = {
     {0, 0, -3},
     {0, 0, 0 },
     {0, 0, 0 },
@@ -107,4 +107,8 @@ Vector3 getCameraForward()
     forward.y = sin(mainCamera.rot.x);
     forward.z = cos(mainCamera.rot.y) * cos(mainCamera.rot.x);
     return forward;
+}
+
+Camera* getCameraTransform() {
+    return &mainCamera;
 }

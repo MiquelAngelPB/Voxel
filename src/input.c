@@ -17,7 +17,11 @@ void manageInput()
     {
         switch (event.type) {
             case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_ESCAPE)    { SDL_SetRelativeMouseMode(SDL_FALSE);}
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    SDL_SetRelativeMouseMode(SDL_FALSE);
+                    quit = true;
+                }
                 break;
 
             case SDL_QUIT:
