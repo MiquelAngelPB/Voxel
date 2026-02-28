@@ -1,33 +1,21 @@
 #version 430 core
 
-void main()
-{
-   outColor = vec4(uv.x, uv.y, uv.x + uv.y, 1);
-}
+layout (local_size_x = 16, local_size_y = 16) in;
+layout (rgba8, binding = 0) uniform writeonly image2D screenImage;
 
-//==========================================================================
-//TODO: Port this to compute shader, 
-//and use a texture to store the result of the raymarching, the fragment shader will render it.
-
-
-
-/*//variables
+//variables
 uniform vec3 camPos;
-uniform vec3 camRot;
 uniform vec3 forward;
-uniform vec2 resolution;
-
-out vec4 outColor;
 
 float fov = 1;
-vec2 uv = gl_FragCoord.xy / resolution * 2.0 - 1.0;
+vec2 uv;
 vec3 testLight = vec3(0, 1, 0);
 vec3 worldUp = vec3(0, 1, 0);
 
-vec3 rayOrigin = camPos;
-vec3 right = normalize(cross(worldUp, forward));
-vec3 up = normalize(cross(right, forward));
-vec3 rayDirection = normalize(forward * fov + right * uv.x + up * uv.y);
+vec3 rayOrigin;
+vec3 right;
+vec3 up;
+vec3 rayDirection;
 vec3 point;
 
 //methods
@@ -42,6 +30,18 @@ float repeatSphere(vec3 point, vec3 scale);
 //main
 void main()
 {
+   ivec2 texel = ivec2(gl_GlobalInvocationID.xy);
+   ivec2 resolution = imageSize(screenImage);
+   
+   uv = vec2(texel) / vec2(resolution) * 2.0 - 1.0;
+   rayOrigin = camPos;
+   right = normalize(cross(worldUp, forward));
+   up = normalize(cross(right, forward));
+   rayDirection = normalize(forward * fov + right * uv.x + up * uv.y);
+
+   if (texel.x >= resolution.x || texel.y >= resolution.y) return;
+
+   //raymarching
    vec3 p = raymarch(vec2(0));
    float e = 0.001; //epsilon for normal calculation
 
@@ -52,7 +52,7 @@ void main()
    ));
 
    float light = dot(normal, normalize(p - testLight)); //assuming worldUp is already normalized
-   outColor = vec4(light, light, light, 1);
+   imageStore(screenImage, texel, vec4(light, light, light, 1));
 }
 
 vec3 raymarch(vec2 off)
@@ -75,7 +75,6 @@ vec3 raymarch(vec2 off)
 }
 
 //SDF functions
-
 float sdf(vec3 point)
 {
    return min(testFractalSDF(point), repeatSphere(point, vec3(1.0)));
@@ -104,4 +103,4 @@ float testFractalSDF(vec3 p0) {
       p*=1.4/dot(p.xyz,p.xyz);
    }
    return (length(p.xz/p.w)*0.25);
-}*/
+}

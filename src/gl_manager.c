@@ -13,7 +13,8 @@ SDL_Window* win = NULL;
 SDL_GLContext glctx = NULL;
 GLuint vao = 0;
 GLuint vbo = 0;
-GLuint program;
+GLuint programGraphic;
+GLuint programCompute;
 GLuint screenTexture;
 
 Vector3 camPos;
@@ -22,42 +23,40 @@ Vector3 camRot;
 //methods
 void initSDL_GL();
 void cleanSDL_GL();
+void setStaticUniforms();
+void setDynamicUniforms();
 void manageShaders();
-void compileShaders(GLuint* pshader, const char *data[], int nShaders);
+void compileShaders(GLuint* pshader, const char *data[], int nShaders, GLuint *pProgram);
 void createScreenMesh();
 void createScreenTexture();
+void printGLError(char* context);
 
 //main methods
 void glManager_Init() {
     initSDL_GL();
     createScreenMesh();
     createScreenTexture();
+    setStaticUniforms();
 }
 
 void glManager_Render()
 {
+    glUseProgram(programCompute);
+    setDynamicUniforms();
+    glBindImageTexture(0, screenTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+    glDispatchCompute((SCREEN_WIDTH + 15) / 16, (SCREEN_HEIGHT + 15) / 16, 1);
+    glMemoryBarrier(GL_ALL_BARRIER_BITS);
+
+    glUseProgram(programGraphic);
     glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(program);
 
-    getCameraPosition(&camPos.x, &camPos.y, &camPos.z);
-    GLuint camPosGL = glGetUniformLocation(program, "camPos");
-    glUniform3f(camPosGL, camPos.x, camPos.y, camPos.z);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, screenTexture);
 
-    getCameraRotation(&camRot.x, &camRot.y, &camRot.z);
-    GLuint camRotGL = glGetUniformLocation(program, "camRot");
-    glUniform3f(camRotGL, camRot.x, camRot.y, camRot.z);
-
-    Vector3 forward = getCameraForward();
-    GLuint forwardGL = glGetUniformLocation(program, "forward");
-    glUniform3f(forwardGL, forward.x, forward.y, forward.z);
-
-    GLuint resolutionGL = glGetUniformLocation(program, "resolution");
-    glUniform2f(resolutionGL, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    //render here
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
+
     SDL_GL_SwapWindow(win);
 }
 
@@ -69,6 +68,17 @@ void glManager_Clean()
 //other methods
 void cleanSDL_GL()
 {
+    glDeleteTextures(1, &screenTexture);
+
+    //unbind vao and vbo
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    glDeleteBuffers(1, &vbo);
+    glDeleteVertexArrays(1, &vao);
+
+    printGLError("cleaning OpenGL");
+
     SDL_GL_DeleteContext(glctx);
     SDL_DestroyWindow(win);
     SDL_Quit();
@@ -76,6 +86,7 @@ void cleanSDL_GL()
 
 void initSDL_GL()
 {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     SDL_Init(SDL_INIT_VIDEO);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
@@ -89,8 +100,28 @@ void initSDL_GL()
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 
+    printGLError("initializing OpenGL");
     glctx = SDL_GL_CreateContext(win);
     glewInit();
+}
+
+void setStaticUniforms()
+{
+    //once per program
+    GLuint screenTexGL = glGetUniformLocation(programCompute, "screenTexture");
+    glUniform1i(screenTexGL, 0);
+}
+
+void setDynamicUniforms()
+{
+    //once per frame
+    getCameraPosition(&camPos.x, &camPos.y, &camPos.z);
+    GLuint camPosGL = glGetUniformLocation(programCompute, "camPos");
+    glUniform3f(camPosGL, camPos.x, camPos.y, camPos.z);
+
+    Vector3 forward = getCameraForward();
+    GLuint forwardGL = glGetUniformLocation(programCompute, "forward");
+    glUniform3f(forwardGL, forward.x, forward.y, forward.z);
 }
 
 void createScreenMesh()
@@ -112,20 +143,24 @@ void createScreenMesh()
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    //unbind vao and vbo
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
-    //render here
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-
+    printGLError("creating screen mesh");
     manageShaders();
 }
 
 void createScreenTexture()
 {
-    //TODO: Create texture to render to.
+    float borderColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+
+    glCreateTextures(GL_TEXTURE_2D, 1, &screenTexture);
+
+    glTextureParameteri(screenTexture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTextureParameteri(screenTexture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureParameteri(screenTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTextureParameteri(screenTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    glTextureParameterfv(screenTexture, GL_TEXTURE_BORDER_COLOR, borderColor);  
+
+    glTextureStorage2D(screenTexture, 1, GL_RGBA8, SCREEN_WIDTH, SCREEN_HEIGHT);
+    printGLError("creating screen texture");
 }
 
 void manageShaders()
@@ -134,19 +169,24 @@ void manageShaders()
     GLuint cs = glCreateShader(GL_COMPUTE_SHADER);
     GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
 
-    const char *shaderSources[2];
+    const char *graphicShaderSrc[2];
+    const char *computeShaderSrc[1];
     int error;
 
-    shaderSources[0] = readFile("src/shaders/vertex.vert", &error);
-    shaderSources[1] = readFile("src/shaders/raymarching comp", &error);
-    shaderSources[2] = readFile("src/shaders/fragment.frag", &error);
+    graphicShaderSrc[0] = readFile("src/shaders/vertex.vert", &error);
+    graphicShaderSrc[1] = readFile("src/shaders/fragment.frag", &error);
 
-    GLuint shaders[3] = { vs, cs, fs };
+    computeShaderSrc[0] = readFile("src/shaders/raymarching comp", &error);
 
-    compileShaders(shaders, shaderSources, 2);
+    GLuint graphicShaders[2] = { vs, fs };
+    GLuint computeShaders[1] = { cs };
+
+    printGLError("creating shaders");
+    compileShaders(graphicShaders, graphicShaderSrc, 2, &programGraphic);
+    compileShaders(computeShaders, computeShaderSrc, 1, &programCompute);
 }
 
-void compileShaders(GLuint* pshader, const char *data[], int nShaders)
+void compileShaders(GLuint* pshader, const char *data[], int nShaders, GLuint *pProgram)
 {
     GLint succes;
     char infoLog[512];
@@ -164,11 +204,27 @@ void compileShaders(GLuint* pshader, const char *data[], int nShaders)
         }
     }
 
-    program = glCreateProgram();
+    *pProgram = glCreateProgram();
 
     for (int i = 0; i < nShaders; i++)
     {
-        glAttachShader(program, pshader[i]);
+        glAttachShader(*pProgram, pshader[i]);
     }
-    glLinkProgram(program);
+    glLinkProgram(*pProgram);
+    
+    glGetProgramiv(*pProgram, GL_LINK_STATUS, &succes);
+    if (!succes)
+    {
+        glGetProgramInfoLog(*pProgram, 512, NULL, infoLog);
+        printf("Linking Failed:\n%s\n", infoLog);
+    }
+}
+
+void printGLError(char* context)
+{
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR)
+    {
+        printf("OpenGL error when %s: %d\n", context, error);
+    }
 }

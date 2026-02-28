@@ -1,15 +1,10 @@
 #version 330 core
 
-//variables
-uniform vec2 resolution;
-vec2 uv = gl_FragCoord.xy / resolution * 2.0 - 1.0;
-
+uniform sampler2D screenTexture;
+in vec2 uv;
 out vec4 outColor;
 
-//methods
-
-//main
 void main()
 {
-   
+    outColor = texture(screenTexture, uv);
 }
