@@ -7,6 +7,7 @@ CMakeFiles/game.dir/src/game/camera.c.o: /home/miquelangelpb/Escritorio/Programa
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.h \
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.h \
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h \
+  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
   /usr/include/math.h \
@@ -49,10 +50,6 @@ CMakeFiles/game.dir/src/game/camera.c.o: /home/miquelangelpb/Escritorio/Programa
 
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.h:
 
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
-/usr/include/x86_64-linux-gnu/bits/wordsize.h:
-
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
@@ -63,15 +60,19 @@ CMakeFiles/game.dir/src/game/camera.c.o: /home/miquelangelpb/Escritorio/Programa
 
 /usr/include/features-time64.h:
 
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h:
-
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-
-/usr/include/x86_64-linux-gnu/bits/timesize.h:
-
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/game/camera.c:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h:
+
+/usr/include/x86_64-linux-gnu/bits/timesize.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
@@ -88,6 +89,8 @@ CMakeFiles/game.dir/src/game/camera.c.o: /home/miquelangelpb/Escritorio/Programa
 /usr/include/math.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 

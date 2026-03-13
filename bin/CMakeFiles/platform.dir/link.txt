@@ -1,2 +1,2 @@
-/usr/bin/ar qc libplatform.a CMakeFiles/platform.dir/src/platform/input.c.o CMakeFiles/platform.dir/src/platform/settings.c.o CMakeFiles/platform.dir/src/platform/gameState.c.o CMakeFiles/platform.dir/src/platform/window.c.o
+/usr/bin/ar qc libplatform.a CMakeFiles/platform.dir/src/platform/input.c.o CMakeFiles/platform.dir/src/platform/settings.c.o CMakeFiles/platform.dir/src/platform/gameState.c.o CMakeFiles/platform.dir/src/platform/window.c.o CMakeFiles/platform.dir/src/platform/time.c.o
 /usr/bin/ranlib libplatform.a

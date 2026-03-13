@@ -26,4 +26,5 @@ CMakeFiles/game.dir/src/game/camera.c.o: \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.h \
- /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h \
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h

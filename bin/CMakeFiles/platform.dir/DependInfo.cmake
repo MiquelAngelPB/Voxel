@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.c" "CMakeFiles/platform.dir/src/platform/gameState.c.o" "gcc" "CMakeFiles/platform.dir/src/platform/gameState.c.o.d"
   "/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.c" "CMakeFiles/platform.dir/src/platform/input.c.o" "gcc" "CMakeFiles/platform.dir/src/platform/input.c.o.d"
   "/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.c" "CMakeFiles/platform.dir/src/platform/settings.c.o" "gcc" "CMakeFiles/platform.dir/src/platform/settings.c.o.d"
+  "/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.c" "CMakeFiles/platform.dir/src/platform/time.c.o" "gcc" "CMakeFiles/platform.dir/src/platform/time.c.o.d"
   "/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.c" "CMakeFiles/platform.dir/src/platform/window.c.o" "gcc" "CMakeFiles/platform.dir/src/platform/window.c.o.d"
   )
 

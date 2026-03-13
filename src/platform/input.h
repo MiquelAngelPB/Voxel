@@ -14,5 +14,6 @@ typedef struct {
 extern inputData* pInput;
 void initInput();
 void updateInput();
+void cleanInput();
 
 #endif

@@ -3,6 +3,7 @@
 #include "game/camera.h"
 #include "platform/input.h"
 #include "platform/settings.h"
+#include "platform/time.h"
 
 Camera mainCamera;
 Camera* pCamera;
@@ -11,7 +12,7 @@ const float rotationXOffset = 0.2;
 float minRotationX = -(M_PI / 2.0f) + rotationXOffset;
 float maxRotationX = M_PI / 2.0f - rotationXOffset;
 
-float speed = 0.01f;
+float speed = 0.2f;
 float maxSpeed = 30;
 float friction = 0.95f;
 
@@ -34,13 +35,12 @@ void updateCamera()
     {
         pushCamera(pInput->keyMovement);
         rotateCamera(multVector3((Vector3){pInput->mouseMovement.x, pInput->mouseMovement.y, 0}, pSettings->sensitivity));
+        mainCamera.forward = getCameraForward();
     }
 
-    mainCamera.v.x += mainCamera.a.x * speed;
-    mainCamera.v.y += mainCamera.a.y * speed;
-    mainCamera.v.z += mainCamera.a.z * speed;
-
-    moveCamera(mainCamera.v);
+    mainCamera.v.x += mainCamera.a.x * speed * deltaTime;
+    mainCamera.v.y += mainCamera.a.y * speed * deltaTime;
+    mainCamera.v.z += mainCamera.a.z * speed * deltaTime;
 
     mainCamera.v.x *= friction;
     mainCamera.v.y *= friction;
@@ -53,18 +53,15 @@ void updateCamera()
     else if (mainCamera.v.y < -maxSpeed) { mainCamera.v.y = -maxSpeed; }
     if (mainCamera.v.x > maxSpeed) { mainCamera.v.x = maxSpeed; }
     else if (mainCamera.v.z < -maxSpeed) { mainCamera.v.z = -maxSpeed; }
+
+    moveCamera(mainCamera.v);
 }
 
 void pushCamera(Vector3 acceleration) 
 {
-    float ax, ay, az;
-    ax = acceleration.x;
-    ay = acceleration.y;
-    az = acceleration.z;
-
-    mainCamera.a.x = ax;
-    mainCamera.a.y = ay;
-    mainCamera.a.z = az;
+    mainCamera.a.x = acceleration.x;
+    mainCamera.a.y = acceleration.y;
+    mainCamera.a.z = acceleration.z;
 }
 
 void moveCamera(Vector3 movement)

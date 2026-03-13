@@ -11,24 +11,37 @@ CMakeFiles/gpu.dir/src/gpu/buffer.c.o: /home/miquelangelpb/Escritorio/Programaci
   /usr/include/features.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \
+  /usr/include/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
   /usr/include/x86_64-linux-gnu/bits/long-double.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
   /usr/include/x86_64-linux-gnu/bits/time64.h \
   /usr/include/x86_64-linux-gnu/bits/timesize.h \
   /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
 CMakeFiles/gpu.dir/src/gpu/gpuDebug.c.o: /home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/gpuDebug.c \
+  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h \
   /usr/include/GL/gl.h \
   /usr/include/GL/glew.h \
   /usr/include/GL/glu.h \
@@ -62,6 +75,7 @@ CMakeFiles/gpu.dir/src/gpu/gpuDebug.c.o: /home/miquelangelpb/Escritorio/Programa
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
@@ -138,82 +152,86 @@ CMakeFiles/gpu.dir/src/gpu/texture.c.o: /home/miquelangelpb/Escritorio/Programac
 
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/shader.c:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/gpuDebug.c:
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
-
-/usr/include/stdc-predef.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
-
-/usr/include/features-time64.h:
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h:
 
 /usr/include/stdint.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
+/usr/include/stdio.h:
 
-/usr/include/features.h:
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/gpuDebug.h:
 
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/shader.h:
+/usr/include/stdc-predef.h:
 
-/usr/include/x86_64-linux-gnu/bits/long-double.h:
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 
 /usr/include/GL/glu.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
+
+/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/GL/glew.h:
 
 /usr/include/GL/gl.h:
 
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/buffer.h:
 
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/gpuDebug.h:
-
-/usr/include/stdio.h:
-
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/buffer.c:
 
-/usr/include/x86_64-linux-gnu/bits/stdint-least.h:
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/shader.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+/usr/include/x86_64-linux-gnu/bits/long-double.h:
 
-/usr/include/x86_64-linux-gnu/bits/wchar.h:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-/usr/include/GL/glew.h:
-
-/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/time64.h:
-
-/usr/include/x86_64-linux-gnu/sys/cdefs.h:
-
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/gpuDebug.c:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
-
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
-/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
+/usr/include/x86_64-linux-gnu/bits/stdint-least.h:
+
+/usr/include/features.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/time64.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/include/features-time64.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:

@@ -458,6 +458,30 @@ src/platform/settings.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform.dir/build.make CMakeFiles/platform.dir/src/platform/settings.c.s
 .PHONY : src/platform/settings.c.s
 
+src/platform/time.o: src/platform/time.c.o
+.PHONY : src/platform/time.o
+
+# target to build an object file
+src/platform/time.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform.dir/build.make CMakeFiles/platform.dir/src/platform/time.c.o
+.PHONY : src/platform/time.c.o
+
+src/platform/time.i: src/platform/time.c.i
+.PHONY : src/platform/time.i
+
+# target to preprocess a source file
+src/platform/time.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform.dir/build.make CMakeFiles/platform.dir/src/platform/time.c.i
+.PHONY : src/platform/time.c.i
+
+src/platform/time.s: src/platform/time.c.s
+.PHONY : src/platform/time.s
+
+# target to generate assembly for a file
+src/platform/time.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform.dir/build.make CMakeFiles/platform.dir/src/platform/time.c.s
+.PHONY : src/platform/time.c.s
+
 src/platform/window.o: src/platform/window.c.o
 .PHONY : src/platform/window.o
 
@@ -553,6 +577,9 @@ help:
 	@echo "... src/platform/settings.o"
 	@echo "... src/platform/settings.i"
 	@echo "... src/platform/settings.s"
+	@echo "... src/platform/time.o"
+	@echo "... src/platform/time.i"
+	@echo "... src/platform/time.s"
 	@echo "... src/platform/window.o"
 	@echo "... src/platform/window.i"
 	@echo "... src/platform/window.s"

@@ -18,21 +18,32 @@ void initWindow()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    if (pSettings->debugMode)
+    {
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+    }
 
     win = SDL_CreateWindow("Voxel Project",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    pSettings->screenWidth, pSettings->screenHeight, SDL_WINDOW_OPENGL);
+    80, 60, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     glctx = SDL_GL_CreateContext(win);
     glewInit();
+    //glViewport(0, 0, pSettings->screenWidth, pSettings->screenHeight);
 
+    if (pSettings->debugMode) { enableGLDebug(); }
     printGLError("initializing OpenGL");
 }
 
 void updateWindow()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(win);
+}
+
+void clearScreen()
+{
+    glClearColor(0, 0.5, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void cleanWindow()

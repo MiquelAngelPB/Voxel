@@ -20,9 +20,19 @@ void initInput()
     pInput = &input;
 }
 
+void cleanInput()
+{
+    input = (inputData){
+        .hasChanged = false,
+        .keyMovement = {0, 0, 0},
+        .mouseMovement = {0, 0}
+    };
+}
+
 void updateInput()
 {
-    input.hasChanged = false;
+    cleanInput();
+    
     SDL_Event event;
     while (SDL_PollEvent(&event)) 
     {

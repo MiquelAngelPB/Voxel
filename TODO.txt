@@ -1,6 +1,3 @@
-- Migrate to CMake and reorganize code
-- Move sensitivity variable to settings
 - Make a propper FPS counter
 - Refactor updateCameraPos() on game/camera.c
-- Main loop doesnt work, need to set up SDL in its own corresponging file
-- Fix black screen
+- General optimization

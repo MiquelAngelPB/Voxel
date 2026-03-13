@@ -124,7 +124,7 @@ CMakeFiles/game.dir/all: CMakeFiles/gpu.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/game.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/game.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 0
 .PHONY : CMakeFiles/game.dir/rule
@@ -146,12 +146,12 @@ CMakeFiles/platform.dir/all: CMakeFiles/core.dir/all
 CMakeFiles/platform.dir/all: CMakeFiles/gpu.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform.dir/build.make CMakeFiles/platform.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform.dir/build.make CMakeFiles/platform.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=11,12,13,14,15 "Built target platform"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=11,12,13,14,15,16 "Built target platform"
 .PHONY : CMakeFiles/platform.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/platform.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/platform.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 0
 .PHONY : CMakeFiles/platform.dir/rule
@@ -201,12 +201,12 @@ CMakeFiles/render.dir/all: CMakeFiles/platform.dir/all
 CMakeFiles/render.dir/all: CMakeFiles/gpu.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/render.dir/build.make CMakeFiles/render.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/render.dir/build.make CMakeFiles/render.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=16,17 "Built target render"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=17,18 "Built target render"
 .PHONY : CMakeFiles/render.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/render.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/render.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 0
 .PHONY : CMakeFiles/render.dir/rule
@@ -231,12 +231,12 @@ CMakeFiles/voxel.dir/all: CMakeFiles/gpu.dir/all
 CMakeFiles/voxel.dir/all: CMakeFiles/render.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxel.dir/build.make CMakeFiles/voxel.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxel.dir/build.make CMakeFiles/voxel.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=18,19 "Built target voxel"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=19,20 "Built target voxel"
 .PHONY : CMakeFiles/voxel.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/voxel.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/voxel.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles 0
 .PHONY : CMakeFiles/voxel.dir/rule

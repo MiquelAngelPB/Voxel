@@ -16,6 +16,7 @@ add_library(platform
     src/platform/settings.c
     src/platform/gameState.c
     src/platform/window.c
+    src/platform/time.c
 )
 
 add_library(gpu

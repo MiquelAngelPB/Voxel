@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/platform.dir/src/platform/input.c.o.d"
   "CMakeFiles/platform.dir/src/platform/settings.c.o"
   "CMakeFiles/platform.dir/src/platform/settings.c.o.d"
+  "CMakeFiles/platform.dir/src/platform/time.c.o"
+  "CMakeFiles/platform.dir/src/platform/time.c.o.d"
   "CMakeFiles/platform.dir/src/platform/window.c.o"
   "CMakeFiles/platform.dir/src/platform/window.c.o.d"
   "libplatform.a"

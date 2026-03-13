@@ -125,12 +125,27 @@ CMakeFiles/platform.dir/src/platform/window.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/platform.dir/src/platform/window.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.c -o CMakeFiles/platform.dir/src/platform/window.c.s
 
+CMakeFiles/platform.dir/src/platform/time.c.o: CMakeFiles/platform.dir/flags.make
+CMakeFiles/platform.dir/src/platform/time.c.o: /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.c
+CMakeFiles/platform.dir/src/platform/time.c.o: CMakeFiles/platform.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/platform.dir/src/platform/time.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/platform.dir/src/platform/time.c.o -MF CMakeFiles/platform.dir/src/platform/time.c.o.d -o CMakeFiles/platform.dir/src/platform/time.c.o -c /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.c
+
+CMakeFiles/platform.dir/src/platform/time.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/platform.dir/src/platform/time.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.c > CMakeFiles/platform.dir/src/platform/time.c.i
+
+CMakeFiles/platform.dir/src/platform/time.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/platform.dir/src/platform/time.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.c -o CMakeFiles/platform.dir/src/platform/time.c.s
+
 # Object files for target platform
 platform_OBJECTS = \
 "CMakeFiles/platform.dir/src/platform/input.c.o" \
 "CMakeFiles/platform.dir/src/platform/settings.c.o" \
 "CMakeFiles/platform.dir/src/platform/gameState.c.o" \
-"CMakeFiles/platform.dir/src/platform/window.c.o"
+"CMakeFiles/platform.dir/src/platform/window.c.o" \
+"CMakeFiles/platform.dir/src/platform/time.c.o"
 
 # External object files for target platform
 platform_EXTERNAL_OBJECTS =
@@ -139,9 +154,10 @@ libplatform.a: CMakeFiles/platform.dir/src/platform/input.c.o
 libplatform.a: CMakeFiles/platform.dir/src/platform/settings.c.o
 libplatform.a: CMakeFiles/platform.dir/src/platform/gameState.c.o
 libplatform.a: CMakeFiles/platform.dir/src/platform/window.c.o
+libplatform.a: CMakeFiles/platform.dir/src/platform/time.c.o
 libplatform.a: CMakeFiles/platform.dir/build.make
 libplatform.a: CMakeFiles/platform.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C static library libplatform.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C static library libplatform.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/platform.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/platform.dir/link.txt --verbose=$(VERBOSE)
 

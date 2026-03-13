@@ -1,5 +1,5 @@
-CMakeFiles/platform.dir/src/platform/window.c.o: \
- /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.c \
+CMakeFiles/platform.dir/src/platform/time.c.o: \
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.c \
  /usr/include/stdc-predef.h /usr/include/SDL2/SDL.h \
  /usr/include/SDL2/SDL_main.h /usr/include/SDL2/SDL_stdinc.h \
  /usr/include/SDL2/SDL_config.h \
@@ -187,9 +187,4 @@ CMakeFiles/platform.dir/src/platform/window.c.o: \
  /usr/include/SDL2/SDL_render.h /usr/include/SDL2/SDL_shape.h \
  /usr/include/SDL2/SDL_system.h /usr/include/SDL2/SDL_timer.h \
  /usr/include/SDL2/SDL_version.h /usr/include/SDL2/SDL_locale.h \
- /usr/include/SDL2/SDL_misc.h /usr/include/GL/glew.h \
- /usr/include/GL/glu.h /usr/include/GL/gl.h \
- /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.h \
- /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/gpuDebug.h
+ /usr/include/SDL2/SDL_misc.h

@@ -32,8 +32,11 @@ void main()
 {
    ivec2 texel = ivec2(gl_GlobalInvocationID.xy);
    ivec2 resolution = imageSize(screenImage);
+   float aspectRatio = float(resolution.x) / float(resolution.y);
    
    uv = vec2(texel) / vec2(resolution) * 2.0 - 1.0;
+   uv.x *= aspectRatio;
+
    rayOrigin = camPos;
    right = normalize(cross(worldUp, forward));
    up = normalize(cross(right, forward));
@@ -52,8 +55,8 @@ void main()
    ));
 
    float light = dot(normal, normalize(p - testLight)); //assuming worldUp is already normalized
-   imageStore(screenImage, texel, vec4(1, 0, 0, 1));
-   //imageStore(screenImage, texel, vec4(light, light, light, 1));
+   //imageStore(screenImage, texel, vec4(texel.x, texel.y, 0, 1));
+   imageStore(screenImage, texel, vec4(light, light, light, 1));
 }
 
 vec3 raymarch(vec2 off)

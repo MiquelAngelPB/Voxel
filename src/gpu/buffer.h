@@ -8,8 +8,9 @@ typedef struct {
     GLuint vbo;
 } meshBuffers;
 
-void createMesh(float* vertices, meshBuffers* buffers);
+void createMesh(float* vertices, int nVertices, meshBuffers* buffers);
 void cleanMesh(meshBuffers* buffers);
+void useMesh(meshBuffers* buffers);
 void drawMesh(meshBuffers* buffers, int nVertices);
 
 #endif

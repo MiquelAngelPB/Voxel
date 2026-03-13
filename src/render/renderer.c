@@ -4,6 +4,7 @@
 #include "gpu/texture.h"
 #include "gpu/buffer.h"
 #include "platform/settings.h"
+#include "platform/window.h"
 #include "game/camera.h"
 
 GLuint programGraphic;
@@ -18,7 +19,7 @@ void initRenderer()
        -1, -1,  1, -1, 1, 1,
        -1, -1, -1,  1, 1, 1
     };
-    createMesh(screenTriangles, &screenMesh);
+    createMesh(screenTriangles, 6, &screenMesh);
 
     //Screen texture
     screenTexture = createTexture(pSettings->screenWidth, pSettings->screenHeight);
@@ -52,12 +53,10 @@ void updateRenderer()
     bindImageTexture(screenTexture, 0);
     runComputeShader((pSettings->screenWidth + 15) / 16, (pSettings->screenHeight + 15) / 16, 1);
 
-    glClear(GL_COLOR_BUFFER_BIT);
-
     //rendering pass
     useProgram(programGraphic);
     bindSampleTexture(screenTexture, 0);
-
+    //useMesh(&screenMesh);
     drawMesh(&screenMesh, 6);
 }
 
