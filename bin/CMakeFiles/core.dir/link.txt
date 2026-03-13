@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore.a CMakeFiles/core.dir/src/core/file.c.o CMakeFiles/core.dir/src/core/vector.c.o
+/usr/bin/ranlib libcore.a

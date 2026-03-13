@@ -1,10 +1,10 @@
-cFlags=  -lSDL2 -lGLEW -lGL -lm -I$(include)
-include = ./include
-source = ./src
-binary = ./bin
+build:
+	clear
+	cmake -G "Unix Makefiles" -S . -B ./bin/
+	cmake --build ./bin/ -- -s
 
-all:
-	gcc $(source)/*.c $(cFlags) -o $(binary)/test
+run: build
+	./bin/voxel
 
-run: all
-	./bin/test
+clean:
+	rm -rf ./bin/
