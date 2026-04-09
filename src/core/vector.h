@@ -16,6 +16,8 @@ typedef struct {
     float y;
 } Vector2;
 
+Vector3 addVector3(Vector3 a, Vector3 b);
 Vector3 multVector3(Vector3 v, float scalar);
+Vector3 clampVector3(Vector3 v, float min, float max);
 
 #endif

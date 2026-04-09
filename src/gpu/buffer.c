@@ -3,6 +3,8 @@
 #include "gpu/gpuDebug.h"
 #include "gpu/buffer.h"
 
+//MESHES ============================
+
 void createMesh(float* vertices, int nVertices, meshBuffers* buffers)
 {
     //Each triangle is 2D, so 2 floats per vertex
@@ -40,4 +42,25 @@ void useMesh(meshBuffers* buffers)
 void drawMesh(meshBuffers* buffers, int nVertices)
 {
     glDrawArrays(GL_TRIANGLES, 0, nVertices);
+}
+
+//GENERIC BUFFERS ==========================
+
+void createBuffer(int size, int slot, GLuint* buffer)
+{
+    glCreateBuffers(1, buffer);
+    glNamedBufferData(*buffer, size, NULL, GL_STREAM_DRAW);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, slot, *buffer);
+}
+
+void writeBuffer(int size, int slot, GLuint* buffer, void* data)
+{
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, *buffer);
+    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, size, data);
+}
+
+void cleanBuffer(int size, int slot, GLuint* buffer)
+{
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, slot, 0);
+    glDeleteBuffers(1, buffer);
 }

@@ -1,5 +1,6 @@
-#include <GL/glew.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <GL/glew.h>
 #include "core/file.h"
 #include "gpu/gpuDebug.h"
 #include "gpu/shader.h"
@@ -55,6 +56,10 @@ void setUniform(uniformType type, char* name, void* data, GLuint* pProgram)
             float* v3 = data;
             glUniform3f(uniform, v3[0], v3[1], v3[2]);
             break;
+        case UNIFORM_FLOAT:
+            float* f = data;
+            glUniform1f(uniform, *f);
+            break;
         default:
             break;
     }
@@ -76,6 +81,7 @@ void compileShaders(shaderData* shaders, int nShaders, GLuint* pProgram)
         {
             glGetShaderInfoLog(shaders[i].pShader, 512, NULL, infoLog);
             printf("Shader Compilation Failed:\n%s\n", infoLog);
+            exit(-1);
         }
     }
 
@@ -92,6 +98,7 @@ void compileShaders(shaderData* shaders, int nShaders, GLuint* pProgram)
     {
         glGetProgramInfoLog(*pProgram, 512, NULL, infoLog);
         printf("Linking Failed:\n%s\n", infoLog);
+        exit(-1);
     }
 }
 

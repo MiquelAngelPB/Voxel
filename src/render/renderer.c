@@ -7,13 +7,38 @@
 #include "platform/window.h"
 #include "game/camera.h"
 
+#include <math.h> //TODO: Remove this
+
 GLuint programGraphic;
 GLuint programCompute;
 GLuint screenTexture;
+GLuint tmpWorldBuffer;
 meshBuffers screenMesh = {0};
+int mapSize = 128; //TODO: Dont hardcode this
 
 void initRenderer()
 {
+    //Buffer for testing DDA
+    createBuffer(sizeof(int) * mapSize * mapSize * mapSize, 1, &tmpWorldBuffer);
+    
+    //TODO: Remove this, just for testing =========================
+    int* tmpWorld = malloc(sizeof(int) * mapSize * mapSize * mapSize);
+    for(int x = 0; x < mapSize; x++)
+    {
+        for(int z = 0; z < mapSize; z++)
+        {
+            int y = (int)floor(sin(z*100)*cos(x*100)*2 + 8);
+            int cx = 70;
+            int cy = rand() % 256;
+            int cz = 0;
+            tmpWorld[x + z * mapSize * mapSize + y * mapSize] = cx << 16 | cy << 8 | cz;
+        }
+    }
+    tmpWorld[0] = 255 << 16 | 255 << 8 | 255;
+    writeBuffer(sizeof(int) * mapSize * mapSize * mapSize, 1, &tmpWorldBuffer, tmpWorld);
+    free(tmpWorld);
+    // ============================================================
+
     //Screen mesh
     float screenTriangles[6 * 2] = {
        -1, -1,  1, -1, 1, 1,
@@ -30,6 +55,10 @@ void initRenderer()
     compileShaders(computeShaders, 1, &programCompute);
 
     useProgram(programCompute);
+    float voxelSize = 1; //TODO: Dont hardcode this
+    //setUniform(UNIFORM_FLOAT, "voxelSize", &voxelSize, &programCompute);
+    setUniform(UNIFORM_V3, "mapStart", &(Vector3){0, 0, 0}, &programCompute); //TODO: Dont hardcode this
+    setUniform(UNIFORM_V3, "mapEnd", &(Vector3){mapSize, mapSize, mapSize}, &programCompute); //TODO: Dont hardcode this
     printGLError("when setting up compute shader");
 
     //Vertex and fragment shaders for rendering the texture
@@ -62,6 +91,7 @@ void updateRenderer()
 
 void cleanRenderer()
 {
+    cleanBuffer(sizeof(int) * mapSize * mapSize * mapSize, 0, &tmpWorldBuffer);
     cleanMesh(&screenMesh);
     cleanTexture(screenTexture);
 }

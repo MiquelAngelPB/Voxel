@@ -8,7 +8,7 @@ void initSettings()
         .sensitivity = 0.00078539816 * 2,
         .screenWidth = 560,
         .screenHeight = 315,
-        .debugMode = true
+        .debugMode = false
     };
 
     pSettings = &settings;

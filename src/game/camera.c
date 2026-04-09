@@ -34,26 +34,17 @@ void updateCamera()
     if (pInput->hasChanged)
     {
         pushCamera(pInput->keyMovement);
-        rotateCamera(multVector3((Vector3){pInput->mouseMovement.x, pInput->mouseMovement.y, 0}, pSettings->sensitivity));
+        rotateCamera(multVector3((Vector3){-pInput->mouseMovement.x, pInput->mouseMovement.y, 0}, pSettings->sensitivity));
         mainCamera.forward = getCameraForward();
     }
 
+    //mainCamera.v = addVector3(mainCamera.v, multVector3(mainCamera.a, speed * deltaTime));
     mainCamera.v.x += mainCamera.a.x * speed * deltaTime;
     mainCamera.v.y += mainCamera.a.y * speed * deltaTime;
     mainCamera.v.z += mainCamera.a.z * speed * deltaTime;
 
-    mainCamera.v.x *= friction;
-    mainCamera.v.y *= friction;
-    mainCamera.v.z *= friction;
-
-    //TODO: Refactor this
-    if (mainCamera.v.x > maxSpeed) { mainCamera.v.x = maxSpeed; }
-    else if (mainCamera.v.x < -maxSpeed) { mainCamera.v.x = -maxSpeed; }
-    if (mainCamera.v.y > maxSpeed) { mainCamera.v.y = maxSpeed; }
-    else if (mainCamera.v.y < -maxSpeed) { mainCamera.v.y = -maxSpeed; }
-    if (mainCamera.v.x > maxSpeed) { mainCamera.v.x = maxSpeed; }
-    else if (mainCamera.v.z < -maxSpeed) { mainCamera.v.z = -maxSpeed; }
-
+    mainCamera.v = multVector3(mainCamera.v, friction);
+    mainCamera.v = clampVector3(mainCamera.v, -maxSpeed, maxSpeed);
     moveCamera(mainCamera.v);
 }
 

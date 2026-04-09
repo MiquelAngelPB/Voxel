@@ -1,110 +1,218 @@
 #version 430 core
 
+//extarnal data
 layout (local_size_x = 16, local_size_y = 16) in;
 layout (rgba8, binding = 0) uniform writeonly image2D screenImage;
+layout (std430, binding = 1) buffer worldBuffer { uint grid[]; };
 
-//variables
 uniform vec3 camPos;
 uniform vec3 forward;
+uniform vec3 mapStart;
+uniform vec3 mapEnd;
+//uniform float voxelSize;
+
+//variables
+struct HitInfo
+{
+   bool hit;
+   vec3 position;
+   int side;
+   uint voxel;
+};
 
 float fov = 1;
-vec2 uv;
-vec3 testLight = vec3(0, 1, 0);
 vec3 worldUp = vec3(0, 1, 0);
 
-vec3 rayOrigin;
-vec3 right;
-vec3 up;
-vec3 rayDirection;
-vec3 point;
-
 //methods
-vec3 raymarch(vec2 off);
+int indexFrom3D(ivec3 p);
+HitInfo castRay(vec3 origin, vec3 direction);
+bool getMapIntersectionPoints(vec3 origin, vec3 direction, vec3 mapMin, vec3 mapMax, out float entryDist, out float exitDist);
+bool insideGrid(ivec3 p);
+uint colorToVoxel(vec3 c);
+vec3 voxelToColor(uint v);
 
-float testFractalSDF(vec3 p0);
-float sdf(vec3 point);
-float sphereSDF(float radius, vec3 center, vec3 point);
-float cubeSDF(vec3 point, vec3 scale);
-float repeatSphere(vec3 point, vec3 scale);
-
-//main
 void main()
 {
+   memoryBarrierBuffer();
+   barrier();
+
    ivec2 texel = ivec2(gl_GlobalInvocationID.xy);
    ivec2 resolution = imageSize(screenImage);
-   float aspectRatio = float(resolution.x) / float(resolution.y);
-   
-   uv = vec2(texel) / vec2(resolution) * 2.0 - 1.0;
-   uv.x *= aspectRatio;
-
-   rayOrigin = camPos;
-   right = normalize(cross(worldUp, forward));
-   up = normalize(cross(right, forward));
-   rayDirection = normalize(forward * fov + right * uv.x + up * uv.y);
-
    if (texel.x >= resolution.x || texel.y >= resolution.y) return;
 
-   //raymarching
-   vec3 p = raymarch(vec2(0));
-   float e = 0.001; //epsilon for normal calculation
+   float aspectRatio = float(resolution.x) / float(resolution.y);
+   vec3 right = normalize(cross(worldUp, forward));
+   vec3 up = normalize(cross(right, forward));
+   vec2 uv = vec2(texel) / vec2(resolution) * 2.0 - 1.0;
+   uv.x *= aspectRatio;
+   uv.y *= -1;
+   vec3 direction = normalize(forward * fov + right * uv.x + up * uv.y);
 
-   vec3 normal = normalize(vec3(
-      sdf(p + vec3(e, 0, 0)) - sdf(p - vec3(e, 0, 0)),
-      sdf(p + vec3(0, e, 0)) - sdf(p - vec3(0, e, 0)),
-      sdf(p + vec3(0, 0, e)) - sdf(p - vec3(0, 0, e))
-   ));
+   //vec3 c = castRay(camPos, direction);
+   vec3 c = vec3(0);
+   HitInfo hit = castRay(camPos, direction);
+   if (hit.hit) {
+      c = voxelToColor(hit.voxel);
+   }
 
-   float light = dot(normal, normalize(p - testLight)); //assuming worldUp is already normalized
-   //imageStore(screenImage, texel, vec4(texel.x, texel.y, 0, 1));
-   imageStore(screenImage, texel, vec4(light, light, light, 1));
+   imageStore(screenImage, texel, vec4(c, 1));
 }
 
-vec3 raymarch(vec2 off)
+HitInfo castRay(vec3 origin, vec3 direction)
 {
-   vec3 point = vec3(rayOrigin.xy, 0);
-   float t = 0;
-   vec3 origin = camPos;
-   vec3 rayDir = rayDirection;
-   float dist = 0;
-   for (int i = 0; i < 64; i++)
+   //if the ray is not pointing inside the map dont calculate anything
+   float entryDist, exitDist;
+   if (!getMapIntersectionPoints(origin, direction, mapStart, mapEnd, entryDist, exitDist)) { 
+      return HitInfo(false, vec3(0, 0, 0), 0, 0); 
+   }
+
+   entryDist = max(entryDist, 0);
+   vec3 point = origin + direction * entryDist;
+   point += direction * 0.0001;
+   vec3 mapPos = floor(point);
+
+   //which direction the ray s pointing in each axis
+   vec3 signDir = vec3(0);
+
+   //Lenght of ray from current position to next intersection
+   vec3 sideDist = vec3(0);
+
+   //Lenght of the ray from an intersection to another
+   vec3 deltaDist = vec3(0);
+   deltaDist.x = direction.x == 0 ? 1e30 : abs(1 / direction.x);
+   deltaDist.y = direction.y == 0 ? 1e30 : abs(1 / direction.y);
+   deltaDist.z = direction.z == 0 ? 1e30 : abs(1 / direction.z);
+
+   //hit info
+   int side = 0;
+
+   //first voxel intersection
+   //determine the direction of the ray and the distance to the first intersection
+   if (direction.x >= 0) {
+      signDir.x = 1; 
+      sideDist.x = (mapPos.x + 1.0 - point.x) * deltaDist.x;
+   }
+   else {
+      signDir.x = -1; 
+      sideDist.x = (point.x - mapPos.x) * deltaDist.x;
+   }
+   if (direction.y >= 0) {
+      signDir.y = 1; 
+      sideDist.y = (mapPos.y + 1.0 - point.y) * deltaDist.y;
+   }
+   else {
+      signDir.y = -1; 
+      sideDist.y = (point.y - mapPos.y) * deltaDist.y;
+   }
+   if (direction.z >= 0) {
+      signDir.z = 1; 
+      sideDist.z = (mapPos.z + 1.0 - point.z) * deltaDist.z;
+   }
+   else {
+      signDir.z = -1; 
+      sideDist.z = (point.z - mapPos.z) * deltaDist.z;
+   }
+
+   vec3 c = vec3(0.2);
+   float totalDist = 0;
+   int i = 0;
+   //other voxels
+   while (i < 100)
    {
-      point = origin + vec3(rayDir.xy + off, rayDir.z) * t;
-      dist = sdf(point);
-      t += dist;
+      //detect out of bounds
+      if (totalDist > exitDist) { break; }
+      if (!insideGrid(ivec3(mapPos))) { break; }
 
-      if (dist < 0.001 || t > 100.0) break;
+      //detect hit
+      if (grid[indexFrom3D(ivec3(mapPos))] > 0) {
+         return HitInfo(true, origin + direction * totalDist, side, grid[indexFrom3D(ivec3(mapPos))]);
+      }
+
+      if (sideDist.x <= sideDist.y && sideDist.x <= sideDist.z) {
+         totalDist = sideDist.x;
+         sideDist.x += deltaDist.x;
+         mapPos.x += signDir.x;
+         side = 0;
+      }
+      else if (sideDist.y <= sideDist.x && sideDist.y <= sideDist.z) {
+         totalDist = sideDist.y;
+         sideDist.y += deltaDist.y;
+         mapPos.y += signDir.y;
+         side = 1;
+      }
+      else {
+         totalDist = sideDist.z;
+         sideDist.z += deltaDist.z;
+         mapPos.z += signDir.z;
+         side = 2;
+      }
+
+      i++;
    }
 
-   return point;
+   return HitInfo(false, vec3(0, 0, 0), 0, 0); 
 }
 
-//SDF functions
-float sdf(vec3 point)
+bool getMapIntersectionPoints(vec3 origin, vec3 direction, vec3 mapMin, vec3 mapMax, out float entryDist, out float exitDist)
 {
-   return min(testFractalSDF(point), repeatSphere(point, vec3(1.0)));
-}
-
-float sphereSDF(float radius, vec3 center, vec3 point)
-{
-   return length(point - center) - radius;
-}
-
-float cubeSDF(vec3 point, vec3 scale)
-{
-  return length(max(abs(point) - scale, 0.0));
-}
-
-float repeatSphere(vec3 point, vec3 scale)
-{
-   vec3 q = point - scale * round(point / scale);
-   return sphereSDF(0.1, vec3(0, 0, 0), q);
-}
-
-float testFractalSDF(vec3 p0) {
-   vec4 p = vec4(p0, 1.);
-   for(int i = 0; i < 8; i++){
-      p.xyz = mod(p.xyz-1.,2.)-1.;
-      p*=1.4/dot(p.xyz,p.xyz);
+   vec3 tMin, tMax;
+   //handle rays parallel to axis, they wont hit
+   if (direction.x == 0) {
+      if (origin.x < mapMin.x || origin.x > mapMax.x) { return false; }
+      tMin.x = -1e30;
+      tMax.x =  1e30;
    }
-   return (length(p.xz/p.w)*0.25);
+   if (direction.y == 0) {
+      if (origin.y < mapMin.y || origin.y > mapMax.y) { return false; }
+      tMin.y = -1e30;
+      tMax.y =  1e30;
+   }
+   if (direction.z == 0) {
+      if (origin.z < mapMin.z || origin.z > mapMax.z) { return false; }
+      tMin.z = -1e30;
+      tMax.z =  1e30;
+   }
+
+   //get 2 lines for each axis, 
+   //determine the distances to the nearest and farthest intersections
+   vec3 tMin1 = (mapMin - origin) / direction;
+   vec3 tMin2 = (mapMax - origin) / direction;
+   tMin = vec3(min(tMin1.x, tMin2.x), min(tMin1.y, tMin2.y), min(tMin1.z, tMin2.z));
+   tMax = vec3(max(tMin1.x, tMin2.x), max(tMin1.y, tMin2.y), max(tMin1.z, tMin2.z));
+   float tEnter = max(tMin.x, max(tMin.y, tMin.z));
+   float tExit = min(tMax.x, min(tMax.y, tMax.z));
+
+   //output the distances and if there was a hit
+   if (!(tEnter <= tExit && tExit >= 0)) { return false; }
+   entryDist = tEnter;
+   exitDist = tExit;
+
+   return true;
+}
+
+int indexFrom3D(ivec3 p) {
+   return p.x + p.y * int(mapEnd.x) + p.z * int(mapEnd.x) * int(mapEnd.y);
+}
+
+bool insideGrid(ivec3 p)
+{
+   if (p.x < mapStart.x || p.x >= mapEnd.x) return false;
+   if (p.y < mapStart.y || p.y >= mapEnd.y) return false;
+   if (p.z < mapStart.z || p.z >= mapEnd.z) return false;
+   return true;
+}
+
+uint colorToVoxel(vec3 c)
+{
+   ivec3 rgb = ivec3(clamp(c, 0.0, 1.0) * 255.0);
+   return rgb.r << 16 | rgb.g << 8 | rgb.b;
+}
+
+vec3 voxelToColor(uint v)
+{
+   vec3 c;
+   c.r = float(((v >> 16) & 0xFF) / 255.0);
+   c.g = float(((v >> 8) & 0xFF) / 255.0);
+   c.b = float((v & 0xFF) / 255.0);
+   return c;
 }

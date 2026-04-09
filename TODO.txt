@@ -1,3 +1,5 @@
 - Make a propper FPS counter
-- Refactor updateCameraPos() on game/camera.c
 - General optimization
+- Apply DSA when possible in gpu/*
+- Implement void glBufferSubData(...); to efficiently modify a buffer.
+- Un-hardcode voxelSize, mapStart and mapEnd in renderer.c

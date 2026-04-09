@@ -69,7 +69,7 @@ void updateInput()
         if (keys[SDL_SCANCODE_D])         { input.keyMovement.x = 1; }
         if (keys[SDL_SCANCODE_A])         { input.keyMovement.x = -1; }
 
-        if (keys[SDL_SCANCODE_SPACE])     { input.keyMovement.y = -1; }
-        if (keys[SDL_SCANCODE_LSHIFT])    { input.keyMovement.y = 1; }
+        if (keys[SDL_SCANCODE_SPACE])     { input.keyMovement.y = 1; }
+        if (keys[SDL_SCANCODE_LSHIFT])    { input.keyMovement.y = -1; }
     }
 }
