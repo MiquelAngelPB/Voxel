@@ -29,7 +29,6 @@ void initWindow()
 
     glctx = SDL_GL_CreateContext(win);
     glewInit();
-    //glViewport(0, 0, pSettings->screenWidth, pSettings->screenHeight);
 
     if (pSettings->debugMode) { enableGLDebug(); }
     printGLError("initializing OpenGL");

@@ -9,6 +9,7 @@ typedef enum {
 
 typedef enum {
     UNIFORM_V3,
+    UNIFORM_INT_V3,
     UNIFORM_TEXTURE,
     UNIFORM_FLOAT
 } uniformType;

@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 
+double fps;
 double deltaTime;
 double frequency;
 Uint64 prevTime;
@@ -17,4 +18,5 @@ void updateTimeManager()
     prevTime = thisTime;
     thisTime = SDL_GetPerformanceCounter();
     deltaTime = (double)(((thisTime - prevTime) * 1000 / frequency) * 0.001);
+    fps = 1.0 / deltaTime;
 }

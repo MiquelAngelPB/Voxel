@@ -12,6 +12,7 @@ CMakeFiles/render.dir/src/render/renderer.c.o: /home/miquelangelpb/Escritorio/Pr
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.h \
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h \
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.h \
+  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/world/world.h \
   /usr/include/GL/gl.h \
   /usr/include/GL/glew.h \
   /usr/include/GL/glu.h \
@@ -414,29 +415,11 @@ CMakeFiles/render.dir/src/render/renderer.c.o: /home/miquelangelpb/Escritorio/Pr
 
 /usr/include/SDL2/SDL_main.h:
 
-/usr/include/SDL2/SDL_endian.h:
-
 /usr/include/SDL2/SDL_joystick.h:
 
 /usr/include/SDL2/SDL_power.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vldqintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fp16vlintrin.h:
-
-/usr/include/SDL2/SDL_log.h:
-
-/usr/include/SDL2/SDL_hints.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512ifmaintrin.h:
-
-/usr/include/SDL2/SDL_misc.h:
-
-/usr/include/SDL2/SDL.h:
-
-/usr/include/SDL2/SDL_locale.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+/usr/include/SDL2/SDL_guid.h:
 
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.h:
 
@@ -458,15 +441,13 @@ CMakeFiles/render.dir/src/render/renderer.c.o: /home/miquelangelpb/Escritorio/Pr
 
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/texture.h:
 
-/usr/include/SDL2/SDL_timer.h:
+/usr/include/SDL2/SDL_endian.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avxifmaintrin.h:
-
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/usr/include/SDL2/SDL_version.h:
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/world/world.h:
 
 /usr/include/SDL2/SDL_keyboard.h:
+
+/usr/include/SDL2/SDL_hints.h:
 
 /usr/include/SDL2/SDL_clipboard.h:
 
@@ -491,6 +472,22 @@ CMakeFiles/render.dir/src/render/renderer.c.o: /home/miquelangelpb/Escritorio/Pr
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/SDL2/SDL_cpuinfo.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vldqintrin.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fp16vlintrin.h:
+
+/usr/include/SDL2/SDL_log.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512ifmaintrin.h:
+
+/usr/include/SDL2/SDL_misc.h:
+
+/usr/include/SDL2/SDL.h:
+
+/usr/include/SDL2/SDL_locale.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/pkuintrin.h:
 
@@ -538,7 +535,13 @@ CMakeFiles/render.dir/src/render/renderer.c.o: /home/miquelangelpb/Escritorio/Pr
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
-/usr/include/SDL2/SDL_guid.h:
+/usr/include/SDL2/SDL_timer.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avxifmaintrin.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/SDL2/SDL_version.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
@@ -644,6 +647,12 @@ CMakeFiles/render.dir/src/render/renderer.c.o: /home/miquelangelpb/Escritorio/Pr
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
+
+/usr/include/SDL2/SDL_blendmode.h:
+
+/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/gpu/buffer.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
@@ -707,9 +716,3 @@ CMakeFiles/render.dir/src/render/renderer.c.o: /home/miquelangelpb/Escritorio/Pr
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
-
-/usr/include/SDL2/SDL_blendmode.h:
-
-/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:

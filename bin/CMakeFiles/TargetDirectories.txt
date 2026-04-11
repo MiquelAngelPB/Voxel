@@ -3,6 +3,7 @@
 /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles/platform.dir
 /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles/gpu.dir
 /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles/render.dir
+/home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles/world.dir
 /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles/voxel.dir
 /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles/edit_cache.dir
 /home/miquelangelpb/Escritorio/Programacion/Voxel/bin/CMakeFiles/rebuild_cache.dir

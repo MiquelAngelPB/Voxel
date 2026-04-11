@@ -196,4 +196,6 @@ CMakeFiles/voxel.dir/src/app/main.c.o: \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/render/renderer.h \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.h \
- /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h \
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/world/world.h \
+ /usr/include/GL/glew.h /usr/include/GL/glu.h /usr/include/GL/gl.h

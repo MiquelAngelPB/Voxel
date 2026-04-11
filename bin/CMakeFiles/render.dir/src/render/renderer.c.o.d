@@ -199,4 +199,5 @@ CMakeFiles/render.dir/src/render/renderer.c.o: \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/game/camera.h \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/core/vector.h \
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.h \
- /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.h
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.h \
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/world/world.h

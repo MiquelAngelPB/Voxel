@@ -30,6 +30,10 @@ add_library(render
     src/render/renderer.c
 )
 
+add_library(world
+    src/world/world.c
+)
+
 #external libraries
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
@@ -41,11 +45,14 @@ target_include_directories(game PUBLIC src)
 target_include_directories(platform PUBLIC src)
 target_include_directories(gpu PUBLIC src)
 target_include_directories(render PUBLIC src)
+target_include_directories(world PUBLIC src)
 
+target_link_libraries(core PUBLIC m)
 target_link_libraries(gpu PRIVATE OpenGL::GL GLEW::GLEW core)
 target_link_libraries(platform PUBLIC core PRIVATE gpu SDL2::SDL2)
-target_link_libraries(game PRIVATE core platform m) # m = libm (or math.h)
-target_link_libraries(render PRIVATE OpenGL::GL GLEW::GLEW gpu platform game)
+target_link_libraries(game PRIVATE core platform m) # m = libm
+target_link_libraries(world PRIVATE gpu m core OpenGL::GL GLEW::GLEW)
+target_link_libraries(render PRIVATE OpenGL::GL GLEW::GLEW gpu platform game world)
 #Some libraries may include: OpenGL::GL GLEW::GLEW SDL2::SDL2
 
 #executables
@@ -60,4 +67,5 @@ target_link_libraries(voxel PRIVATE
     platform
     gpu
     render
+    world
 )

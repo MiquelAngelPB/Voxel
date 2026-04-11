@@ -7,6 +7,8 @@
 #include "platform/settings.h"
 #include "platform/gameState.h"
 #include "platform/time.h"
+#include "world/world.h"
+double time = 0;
 
 int main() {
     initSettings();
@@ -14,20 +16,30 @@ int main() {
     initInput();
     initCamera();
     initWindow();
+    initWorld();
     initRenderer();
     initTimeManager();
 
-    *pGameState = STATE_RUNNING; //everything set up
+    *pGameState = STATE_RUNNING;
 
     while (*pGameState == STATE_RUNNING)
     {   
         updateTimeManager();
         updateInput();
         updateCamera();
+        updateWorld();
         updateRenderer();
         updateWindow();
+
+        time += deltaTime;
+        if (time >= 1)
+        {
+            printf("FPS: %f\n", fps);
+            time = 0;
+        }
     }
 
+    cleanWorld();
     cleanRenderer();
     cleanWindow();
 }

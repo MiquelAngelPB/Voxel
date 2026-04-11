@@ -182,6 +182,19 @@ render/fast:
 .PHONY : render/fast
 
 #=============================================================================
+# Target rules for targets named world
+
+# Build rule for target.
+world: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 world
+.PHONY : world
+
+# fast build rule for target.
+world/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/build
+.PHONY : world/fast
+
+#=============================================================================
 # Target rules for targets named voxel
 
 # Build rule for target.
@@ -530,6 +543,30 @@ src/render/renderer.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/render.dir/build.make CMakeFiles/render.dir/src/render/renderer.c.s
 .PHONY : src/render/renderer.c.s
 
+src/world/world.o: src/world/world.c.o
+.PHONY : src/world/world.o
+
+# target to build an object file
+src/world/world.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/src/world/world.c.o
+.PHONY : src/world/world.c.o
+
+src/world/world.i: src/world/world.c.i
+.PHONY : src/world/world.i
+
+# target to preprocess a source file
+src/world/world.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/src/world/world.c.i
+.PHONY : src/world/world.c.i
+
+src/world/world.s: src/world/world.c.s
+.PHONY : src/world/world.s
+
+# target to generate assembly for a file
+src/world/world.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/src/world/world.c.s
+.PHONY : src/world/world.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -544,6 +581,7 @@ help:
 	@echo "... platform"
 	@echo "... render"
 	@echo "... voxel"
+	@echo "... world"
 	@echo "... src/app/main.o"
 	@echo "... src/app/main.i"
 	@echo "... src/app/main.s"
@@ -586,6 +624,9 @@ help:
 	@echo "... src/render/renderer.o"
 	@echo "... src/render/renderer.i"
 	@echo "... src/render/renderer.s"
+	@echo "... src/world/world.o"
+	@echo "... src/world/world.i"
+	@echo "... src/world/world.s"
 .PHONY : help
 
 

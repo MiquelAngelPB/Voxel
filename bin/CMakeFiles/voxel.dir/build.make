@@ -97,6 +97,7 @@ voxel: libgame.a
 voxel: libplatform.a
 voxel: libgpu.a
 voxel: librender.a
+voxel: libworld.a
 voxel: libgame.a
 voxel: libplatform.a
 voxel: /usr/lib/x86_64-linux-gnu/libSDL2.so

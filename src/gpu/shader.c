@@ -56,6 +56,10 @@ void setUniform(uniformType type, char* name, void* data, GLuint* pProgram)
             float* v3 = data;
             glUniform3f(uniform, v3[0], v3[1], v3[2]);
             break;
+        case UNIFORM_INT_V3:
+            int* vi3 = data;
+            glUniform3i(uniform, vi3[0], vi3[1], vi3[2]);
+            break;
         case UNIFORM_FLOAT:
             float* f = data;
             glUniform1f(uniform, *f);

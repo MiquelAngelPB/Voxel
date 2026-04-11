@@ -11,6 +11,8 @@ typedef struct{
     Vector3 v;
     Vector3 a;
     Vector3 forward;
+    Vector3 right;
+    Vector3 up;
 } Camera;
 
 extern Camera* pCamera;

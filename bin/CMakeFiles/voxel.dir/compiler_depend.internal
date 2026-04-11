@@ -11,6 +11,10 @@ CMakeFiles/voxel.dir/src/app/main.c.o
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.h
  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/render/renderer.h
+ /home/miquelangelpb/Escritorio/Programacion/Voxel/src/world/world.h
+ /usr/include/GL/gl.h
+ /usr/include/GL/glew.h
+ /usr/include/GL/glu.h
  /usr/include/SDL2/SDL.h
  /usr/include/SDL2/SDL_assert.h
  /usr/include/SDL2/SDL_atomic.h

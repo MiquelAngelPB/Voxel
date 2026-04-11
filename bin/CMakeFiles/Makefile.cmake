@@ -57,5 +57,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/platform.dir/DependInfo.cmake"
   "CMakeFiles/gpu.dir/DependInfo.cmake"
   "CMakeFiles/render.dir/DependInfo.cmake"
+  "CMakeFiles/world.dir/DependInfo.cmake"
   "CMakeFiles/voxel.dir/DependInfo.cmake"
   )

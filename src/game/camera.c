@@ -16,6 +16,8 @@ float speed = 0.2f;
 float maxSpeed = 30;
 float friction = 0.95f;
 
+Vector3 worldUp = {0, 1, 0};
+
 void initCamera()
 {
     mainCamera = (Camera){
@@ -23,7 +25,9 @@ void initCamera()
         {0, 0, 0 },
         {0, 0, 0 },
         {0, 0, 0 },
-        {0, 0, 1 }
+        {0, 0, 1 },
+        {1, 0, 0 },
+        {0, 1, 0 }
     };
 
     pCamera = &mainCamera;
@@ -36,6 +40,8 @@ void updateCamera()
         pushCamera(pInput->keyMovement);
         rotateCamera(multVector3((Vector3){-pInput->mouseMovement.x, pInput->mouseMovement.y, 0}, pSettings->sensitivity));
         mainCamera.forward = getCameraForward();
+        mainCamera.right = normalize(cross(worldUp, mainCamera.forward));
+        mainCamera.up = normalize(cross(mainCamera.right, mainCamera.forward));
     }
 
     //mainCamera.v = addVector3(mainCamera.v, multVector3(mainCamera.a, speed * deltaTime));

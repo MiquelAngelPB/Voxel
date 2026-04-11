@@ -44,7 +44,7 @@ void drawMesh(meshBuffers* buffers, int nVertices)
     glDrawArrays(GL_TRIANGLES, 0, nVertices);
 }
 
-//GENERIC BUFFERS ==========================
+//GENERIC BUFFERS (SSBOs) ==========================
 
 void createBuffer(int size, int slot, GLuint* buffer)
 {

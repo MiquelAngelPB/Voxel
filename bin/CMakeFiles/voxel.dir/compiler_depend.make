@@ -10,6 +10,10 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h \
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/window.h \
   /home/miquelangelpb/Escritorio/Programacion/Voxel/src/render/renderer.h \
+  /home/miquelangelpb/Escritorio/Programacion/Voxel/src/world/world.h \
+  /usr/include/GL/gl.h \
+  /usr/include/GL/glew.h \
+  /usr/include/GL/glu.h \
   /usr/include/SDL2/SDL.h \
   /usr/include/SDL2/SDL_assert.h \
   /usr/include/SDL2/SDL_atomic.h \
@@ -351,11 +355,13 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx5124fmapsintrin.h:
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fintrin.h:
 
-/usr/include/SDL2/SDL_timer.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/amxint8intrin.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vnniintrin.h:
 
@@ -364,10 +370,6 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/cmpccxaddintrin.h:
-
-/usr/include/SDL2/close_code.h:
 
 /usr/include/SDL2/SDL_scancode.h:
 
@@ -395,12 +397,6 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/SDL2/SDL_filesystem.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avxifmaintrin.h:
-
-/usr/include/SDL2/SDL_version.h:
-
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/13/include/bmi2intrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/adxintrin.h:
@@ -413,7 +409,37 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/SDL2/SDL_main.h:
 
+/usr/include/SDL2/SDL_messagebox.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+
+/usr/include/SDL2/SDL_joystick.h:
+
+/usr/include/SDL2/SDL_power.h:
+
 /usr/include/SDL2/SDL_endian.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/world/world.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/ia32intrin.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h:
+
+/usr/include/GL/gl.h:
+
+/usr/include/SDL2/SDL_metal.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/render/renderer.h:
+
+/usr/include/SDL2/SDL_clipboard.h:
+
+/usr/include/SDL2/SDL_cpuinfo.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/pkuintrin.h:
+
+/usr/include/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vldqintrin.h:
 
@@ -421,15 +447,7 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/SDL2/SDL_log.h:
 
-/usr/include/SDL2/SDL_messagebox.h:
-
-/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/amxint8intrin.h:
-
-/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+/usr/include/SDL2/SDL_hints.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512ifmaintrin.h:
 
@@ -441,17 +459,35 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/ia32intrin.h:
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.h:
 
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/settings.h:
+/usr/include/alloca.h:
 
-/usr/include/SDL2/SDL_metal.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx5124fmapsintrin.h:
 
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/render/renderer.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
-/usr/include/SDL2/SDL_clipboard.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/xsavecintrin.h:
 
-/usr/include/SDL2/SDL_cpuinfo.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/pmmintrin.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.h:
+
+/usr/include/SDL2/SDL_mutex.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h:
+
+/usr/include/SDL2/SDL_loadso.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/popcntintrin.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/game/camera.h:
+
+/home/miquelangelpb/Escritorio/Programacion/Voxel/src/core/vector.h:
+
+/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/prfchiintrin.h:
 
@@ -463,29 +499,15 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /home/miquelangelpb/Escritorio/Programacion/Voxel/src/app/main.c:
 
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/input.h:
+/usr/include/SDL2/SDL_timer.h:
 
-/usr/include/alloca.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avxifmaintrin.h:
 
-/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/core/vector.h:
+/usr/include/SDL2/SDL_version.h:
 
-/usr/include/SDL2/SDL_power.h:
-
-/usr/include/SDL2/SDL_video.h:
-
-/usr/include/SDL2/SDL_rect.h:
-
-/usr/include/x86_64-linux-gnu/bits/floatn.h:
-
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/time.h:
-
-/usr/include/SDL2/SDL_loadso.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/popcntintrin.h:
-
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/game/camera.h:
+/usr/include/SDL2/SDL_keyboard.h:
 
 /usr/include/SDL2/SDL_gesture.h:
 
@@ -496,6 +518,10 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 /usr/include/SDL2/SDL_mouse.h:
 
 /usr/include/SDL2/SDL_pixels.h:
+
+/usr/include/SDL2/SDL_touch.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h:
 
@@ -509,25 +535,15 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/SDL2/SDL_guid.h:
 
-/usr/include/SDL2/SDL_keyboard.h:
+/usr/include/SDL2/SDL_rect.h:
 
-/usr/include/SDL2/SDL_hints.h:
+/usr/include/x86_64-linux-gnu/bits/floatn.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+/usr/include/SDL2/SDL_video.h:
 
-/usr/include/SDL2/SDL_touch.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/cmpccxaddintrin.h:
 
-/usr/include/SDL2/SDL_joystick.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/xsavecintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/pmmintrin.h:
-
-/home/miquelangelpb/Escritorio/Programacion/Voxel/src/platform/gameState.h:
-
-/usr/include/SDL2/SDL_mutex.h:
-
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+/usr/include/SDL2/close_code.h:
 
 /usr/include/ctype.h:
 
@@ -567,6 +583,8 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/stdio.h:
 
+/usr/include/GL/glu.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/SDL2/SDL_assert.h:
@@ -580,12 +598,6 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/pkuintrin.h:
-
-/usr/include/wchar.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/float.h:
 
@@ -659,6 +671,8 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
+/usr/include/GL/glew.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/amxtileintrin.h:
@@ -679,6 +693,12 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fp16intrin.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/13/include/vpclmulqdqintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
@@ -690,11 +710,3 @@ CMakeFiles/voxel.dir/src/app/main.c.o: /home/miquelangelpb/Escritorio/Programaci
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/avx512fp16intrin.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/wchar.h:

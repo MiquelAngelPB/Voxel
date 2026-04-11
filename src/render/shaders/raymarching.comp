@@ -7,48 +7,43 @@ layout (std430, binding = 1) buffer worldBuffer { uint grid[]; };
 
 uniform vec3 camPos;
 uniform vec3 forward;
-uniform vec3 mapStart;
-uniform vec3 mapEnd;
-//uniform float voxelSize;
+uniform vec3 right;
+uniform vec3 up;
+
+uniform vec3 worldOrigin;
+uniform ivec3 gridBounds;
+uniform float voxelSize;
 
 //variables
 struct HitInfo
 {
    bool hit;
    vec3 position;
-   int side;
    uint voxel;
 };
 
-float fov = 1;
-vec3 worldUp = vec3(0, 1, 0);
+const HitInfo miss = HitInfo(false, vec3(0, 0, 0), 0);
 
 //methods
 int indexFrom3D(ivec3 p);
 HitInfo castRay(vec3 origin, vec3 direction);
-bool getMapIntersectionPoints(vec3 origin, vec3 direction, vec3 mapMin, vec3 mapMax, out float entryDist, out float exitDist);
+bool getMapIntersectionPoints(vec3 origin, vec3 direction, vec3 invDir, vec3 boxMin, vec3 boxMax, out float entryDist, out float exitDist);
 bool insideGrid(ivec3 p);
 uint colorToVoxel(vec3 c);
 vec3 voxelToColor(uint v);
 
 void main()
 {
-   memoryBarrierBuffer();
-   barrier();
-
+   //determine direction of each ray
    ivec2 texel = ivec2(gl_GlobalInvocationID.xy);
    ivec2 resolution = imageSize(screenImage);
    if (texel.x >= resolution.x || texel.y >= resolution.y) return;
 
-   float aspectRatio = float(resolution.x) / float(resolution.y);
-   vec3 right = normalize(cross(worldUp, forward));
-   vec3 up = normalize(cross(right, forward));
-   vec2 uv = vec2(texel) / vec2(resolution) * 2.0 - 1.0;
-   uv.x *= aspectRatio;
+   vec2 uv = (vec2(texel) * 2.0 - vec2(resolution)) / float(resolution.y);
    uv.y *= -1;
-   vec3 direction = normalize(forward * fov + right * uv.x + up * uv.y);
+   vec3 direction = normalize(forward + right * uv.x + up * uv.y);
 
-   //vec3 c = castRay(camPos, direction);
+   //Raycasting
    vec3 c = vec3(0);
    HitInfo hit = castRay(camPos, direction);
    if (hit.hit) {
@@ -60,125 +55,93 @@ void main()
 
 HitInfo castRay(vec3 origin, vec3 direction)
 {
+   //Lenght of the ray from an intersection to another
+   //e.g. as the ray becomes parallel to x, invDir.x will increase, 
+   //as it will take longer to reach an intersection
+   vec3 dirGrid = direction / voxelSize;
+   vec3 invDir = {
+      direction.x == 0 ? 1e30 : 1 / direction.x,
+      direction.y == 0 ? 1e30 : 1 / direction.y,
+      direction.z == 0 ? 1e30 : 1 / direction.z
+   };
+
    //if the ray is not pointing inside the map dont calculate anything
+   vec3 worldBoundaries = worldOrigin + gridBounds * voxelSize;
    float entryDist, exitDist;
-   if (!getMapIntersectionPoints(origin, direction, mapStart, mapEnd, entryDist, exitDist)) { 
-      return HitInfo(false, vec3(0, 0, 0), 0, 0); 
+   if (!getMapIntersectionPoints(origin, direction, invDir, worldOrigin, worldBoundaries, entryDist, exitDist)) { 
+      return miss; 
    }
 
    entryDist = max(entryDist, 0);
    vec3 point = origin + direction * entryDist;
-   point += direction * 0.0001;
-   vec3 mapPos = floor(point);
+   point += direction * (0.0001 * voxelSize);
+   ivec3 mapPos = ivec3(floor((point - worldOrigin) / voxelSize));
 
-   //which direction the ray s pointing in each axis
-   vec3 signDir = vec3(0);
-
-   //Lenght of ray from current position to next intersection
-   vec3 sideDist = vec3(0);
+   //which direction the ray is pointing in each axis
+   ivec3 signDir = {
+      direction.x >= 0 ? 1 : -1,
+      direction.y >= 0 ? 1 : -1,
+      direction.z >= 0 ? 1 : -1
+   };
 
    //Lenght of the ray from an intersection to another
-   vec3 deltaDist = vec3(0);
-   deltaDist.x = direction.x == 0 ? 1e30 : abs(1 / direction.x);
-   deltaDist.y = direction.y == 0 ? 1e30 : abs(1 / direction.y);
-   deltaDist.z = direction.z == 0 ? 1e30 : abs(1 / direction.z);
+   vec3 deltaDistUnit = abs(invDir);               //distande per 1 unit
+   vec3 deltaDist = abs(vec3(voxelSize) * invDir); //distance per 1 voxel
 
-   //hit info
-   int side = 0;
+   //Lenght of ray from current position to next intersection
+   vec3 voxelOriginWorld = worldOrigin + vec3(mapPos) * voxelSize; //2 corners of the first voxel
+   vec3 voxelBoundaryWorld = voxelOriginWorld + vec3(voxelSize);
+   vec3 sideDist = {
+      direction.x >= 0 ? (voxelBoundaryWorld.x - point.x) * deltaDistUnit.x : (point.x - voxelOriginWorld.x) * deltaDistUnit.x,
+      direction.y >= 0 ? (voxelBoundaryWorld.y - point.y) * deltaDistUnit.y : (point.y - voxelOriginWorld.y) * deltaDistUnit.y,
+      direction.z >= 0 ? (voxelBoundaryWorld.z - point.z) * deltaDistUnit.z : (point.z - voxelOriginWorld.z) * deltaDistUnit.z
+   };
 
-   //first voxel intersection
-   //determine the direction of the ray and the distance to the first intersection
-   if (direction.x >= 0) {
-      signDir.x = 1; 
-      sideDist.x = (mapPos.x + 1.0 - point.x) * deltaDist.x;
-   }
-   else {
-      signDir.x = -1; 
-      sideDist.x = (point.x - mapPos.x) * deltaDist.x;
-   }
-   if (direction.y >= 0) {
-      signDir.y = 1; 
-      sideDist.y = (mapPos.y + 1.0 - point.y) * deltaDist.y;
-   }
-   else {
-      signDir.y = -1; 
-      sideDist.y = (point.y - mapPos.y) * deltaDist.y;
-   }
-   if (direction.z >= 0) {
-      signDir.z = 1; 
-      sideDist.z = (mapPos.z + 1.0 - point.z) * deltaDist.z;
-   }
-   else {
-      signDir.z = -1; 
-      sideDist.z = (point.z - mapPos.z) * deltaDist.z;
-   }
-
-   vec3 c = vec3(0.2);
-   float totalDist = 0;
-   int i = 0;
    //other voxels
-   while (i < 100)
+   float totalDist = entryDist;
+   for (int i = 0; i < 100; i++)
    {
       //detect out of bounds
       if (totalDist > exitDist) { break; }
-      if (!insideGrid(ivec3(mapPos))) { break; }
+      if (mapPos.x < 0 || mapPos.x >= gridBounds.x ||
+            mapPos.y < 0 || mapPos.y >= gridBounds.y ||
+            mapPos.z < 0 || mapPos.z >= gridBounds.z) 
+      { break; }
 
       //detect hit
-      if (grid[indexFrom3D(ivec3(mapPos))] > 0) {
-         return HitInfo(true, origin + direction * totalDist, side, grid[indexFrom3D(ivec3(mapPos))]);
+      uint voxelData = grid[indexFrom3D(mapPos)];
+      if (voxelData > 0u) {
+         return HitInfo(true, origin + direction * totalDist, voxelData);
       }
 
       if (sideDist.x <= sideDist.y && sideDist.x <= sideDist.z) {
-         totalDist = sideDist.x;
+         totalDist = sideDist.x + entryDist;
          sideDist.x += deltaDist.x;
          mapPos.x += signDir.x;
-         side = 0;
       }
-      else if (sideDist.y <= sideDist.x && sideDist.y <= sideDist.z) {
-         totalDist = sideDist.y;
+      else if (sideDist.y <= sideDist.z) {
+         totalDist = sideDist.y + entryDist;
          sideDist.y += deltaDist.y;
          mapPos.y += signDir.y;
-         side = 1;
       }
       else {
-         totalDist = sideDist.z;
+         totalDist = sideDist.z + entryDist;
          sideDist.z += deltaDist.z;
          mapPos.z += signDir.z;
-         side = 2;
       }
-
-      i++;
    }
 
-   return HitInfo(false, vec3(0, 0, 0), 0, 0); 
+   return miss; 
 }
 
-bool getMapIntersectionPoints(vec3 origin, vec3 direction, vec3 mapMin, vec3 mapMax, out float entryDist, out float exitDist)
+bool getMapIntersectionPoints(vec3 origin, vec3 direction, vec3 invDir, vec3 boxMin, vec3 boxMax, out float entryDist, out float exitDist)
 {
-   vec3 tMin, tMax;
-   //handle rays parallel to axis, they wont hit
-   if (direction.x == 0) {
-      if (origin.x < mapMin.x || origin.x > mapMax.x) { return false; }
-      tMin.x = -1e30;
-      tMax.x =  1e30;
-   }
-   if (direction.y == 0) {
-      if (origin.y < mapMin.y || origin.y > mapMax.y) { return false; }
-      tMin.y = -1e30;
-      tMax.y =  1e30;
-   }
-   if (direction.z == 0) {
-      if (origin.z < mapMin.z || origin.z > mapMax.z) { return false; }
-      tMin.z = -1e30;
-      tMax.z =  1e30;
-   }
-
    //get 2 lines for each axis, 
    //determine the distances to the nearest and farthest intersections
-   vec3 tMin1 = (mapMin - origin) / direction;
-   vec3 tMin2 = (mapMax - origin) / direction;
-   tMin = vec3(min(tMin1.x, tMin2.x), min(tMin1.y, tMin2.y), min(tMin1.z, tMin2.z));
-   tMax = vec3(max(tMin1.x, tMin2.x), max(tMin1.y, tMin2.y), max(tMin1.z, tMin2.z));
+   vec3 tMin1 = (boxMin - origin) * invDir;
+   vec3 tMin2 = (boxMax - origin) * invDir;
+   vec3 tMin = vec3(min(tMin1.x, tMin2.x), min(tMin1.y, tMin2.y), min(tMin1.z, tMin2.z));
+   vec3 tMax = vec3(max(tMin1.x, tMin2.x), max(tMin1.y, tMin2.y), max(tMin1.z, tMin2.z));
    float tEnter = max(tMin.x, max(tMin.y, tMin.z));
    float tExit = min(tMax.x, min(tMax.y, tMax.z));
 
@@ -191,28 +154,20 @@ bool getMapIntersectionPoints(vec3 origin, vec3 direction, vec3 mapMin, vec3 map
 }
 
 int indexFrom3D(ivec3 p) {
-   return p.x + p.y * int(mapEnd.x) + p.z * int(mapEnd.x) * int(mapEnd.y);
-}
-
-bool insideGrid(ivec3 p)
-{
-   if (p.x < mapStart.x || p.x >= mapEnd.x) return false;
-   if (p.y < mapStart.y || p.y >= mapEnd.y) return false;
-   if (p.z < mapStart.z || p.z >= mapEnd.z) return false;
-   return true;
+   return p.x + p.y * gridBounds.x + p.z * gridBounds.x * gridBounds.y;
 }
 
 uint colorToVoxel(vec3 c)
 {
-   ivec3 rgb = ivec3(clamp(c, 0.0, 1.0) * 255.0);
+   uvec3 rgb = uvec3(clamp(c, 0.0, 1.0) * 255.0);
    return rgb.r << 16 | rgb.g << 8 | rgb.b;
 }
 
 vec3 voxelToColor(uint v)
 {
-   vec3 c;
-   c.r = float(((v >> 16) & 0xFF) / 255.0);
-   c.g = float(((v >> 8) & 0xFF) / 255.0);
-   c.b = float((v & 0xFF) / 255.0);
-   return c;
+   return vec3(
+      float((v >> 16) & 0xFF),
+      float((v >> 8) & 0xFF),
+      float(v & 0xFF)
+   ) * (1.0 / 255.0);
 }
